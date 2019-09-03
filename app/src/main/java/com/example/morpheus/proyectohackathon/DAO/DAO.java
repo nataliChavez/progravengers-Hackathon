@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class DAO {
 
-    //PARA SACAR DATOS DE LA BD
+    //PARA OBTENER INFORMACION DE LA BASE DE DTAOS
     public interface OnResultadoConsulta<T> {
 
         void consultaSuccess(T t);
@@ -22,7 +22,6 @@ public abstract class DAO {
         void consultaSuccess(List<T> t);
 
         void consultaFailed(String error, int codigo);
-
     }
 }
 
