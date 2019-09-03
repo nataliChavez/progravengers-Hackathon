@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">proyectohackathon</string>
+
+
+    //TEXTO CONTROLES
+    <string name="registro">Crear cuenta</string>
+
+
 </resources>
