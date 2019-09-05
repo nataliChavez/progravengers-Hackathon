@@ -16,52 +16,54 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Guardar {
-    private Context TheThis;
-    private String NameOfFolder = "/Nuevacarpeta";
-    private String NameOfFile = "imagen";
+    private Context context;
+    private String NombreCarpeta = "/Nuevacarpeta";
+    private String NombreArchivo = "imagen";
 
     public void GuardarImagen(Context context, Bitmap ImageToSave) {
-        TheThis = context;
-        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + NameOfFolder;
-        String CurrentDateAndTime = getCurrentDateAndTime();
+        this.context = context;
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + NombreCarpeta;
+        String nombreImagen = ObtenerFechaYHora();
         File dir = new File(file_path);
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        File file = new File(dir, NameOfFile + CurrentDateAndTime + ".jpg");
+        File file = new File(dir, NombreArchivo + nombreImagen + ".jpg");
         try {
             FileOutputStream fOut = new FileOutputStream(file);
             ImageToSave.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
             fOut.flush();
             fOut.close();
-            MakeSureFileWasCreatedThenMakeAvabile(file);
-            AbleToSave();
+            CrearArxhivo(file);
+            ImagenGuardada();
         }
         catch(FileNotFoundException e) {
-            UnableToSave();
+            NoSePuedeGardar();
         }
         catch(IOException e) {
-            UnableToSave();
+            NoSePuedeGardar();
         }
     }
-    private void MakeSureFileWasCreatedThenMakeAvabile(File file){
-        MediaScannerConnection.scanFile(TheThis,
+
+    //Asegúrese de que el archivo esté creado y luego póngalo disponible
+    private void CrearArxhivo(File file){
+        MediaScannerConnection.scanFile(context,
                 new String[] { file.toString() } , null,
                 new MediaScannerConnection.OnScanCompletedListener() {
                     public void onScanCompleted(String path, Uri uri) {
                     }
                 });
     }
-    private String getCurrentDateAndTime() {
+    private String ObtenerFechaYHora() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-­ss");
         String formattedDate = df.format(c.getTime());
         return formattedDate;
     }
-    private void UnableToSave() {
-        Toast.makeText(TheThis, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
+    private void NoSePuedeGardar() {
+        Toast.makeText(context, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
     }
-    private void AbleToSave() {
-        Toast.makeText(TheThis, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
+    private void ImagenGuardada() {
+        Toast.makeText(context, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
     }
 }
