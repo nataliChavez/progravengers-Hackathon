@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.morpheus.proyectohackathon.Resources.Guardar;
+
 import java.io.File;
 
 public class CamaraActivity extends AppCompatActivity {
@@ -24,6 +26,8 @@ public class CamaraActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST =1 ;
     private Button btn_hacerfoto;
     private ImageView img;
+
+    Guardar guardarImagen = new Guardar();
 
 
     private static final int TAKE_PICTURE = 0;
@@ -68,30 +72,14 @@ public class CamaraActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case CAMERA_REQUEST:
+                if (requestCode == CAMERA_REQUEST) {
 
-                Uri uri = imageUri;
-               Log.i("requestCode",requestCode +"");
-                Log.i("resultCode",resultCode +"");
-                Log.i("imageUri",data +"");
-                if (requestCode == Activity.RESULT_OK) {
-
-                    getContentResolver().notifyChange(uri, null);
-
-                    ContentResolver cr = getContentResolver();
-                    Bitmap bitmap;
-                    try {
-                        bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, uri);
-
-                        img.setImageBitmap(bitmap);
-                        Toast.makeText(this, uri.toString(), Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        Toast.makeText(this, "Error al cargar", Toast.LENGTH_SHORT).show();
-                        Log.e("Camera", e.toString());
-                    }
+                    Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    img.setImageBitmap(photo);
+                    guardarImagen.GuardarImagen(this, photo);
                 }
-        }
+
     }
 
 
