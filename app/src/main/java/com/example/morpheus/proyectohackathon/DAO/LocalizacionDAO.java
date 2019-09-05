@@ -38,7 +38,7 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
         @Override
         public void onSuccess(String s) {
             JSONArray jsonArray;
-            
+
             if(s.length() >0)
             {
 
