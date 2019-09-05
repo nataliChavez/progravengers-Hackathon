@@ -3,9 +3,14 @@ package com.example.morpheus.proyectohackathon;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btnRegistro;
 
     @Override
@@ -15,6 +20,79 @@ public class MainActivity extends AppCompatActivity {
 
         btnRegistro = findViewById(R.id.btnRegistro);
 
+        btnRegistro.setOnClickListener(this);
 
+
+    }
+
+    public String generarJSON(){
+        JSONObject jsonGeneral = new JSONObject();
+        JSONObject jsonPersona = new JSONObject();
+        JSONObject jsonNacimiento = new JSONObject();
+        JSONObject jsonDocumento = new JSONObject();
+        JSONObject jsonDireccion = new JSONObject();
+        JSONObject jsonContacto = new JSONObject();
+
+        try {
+            jsonPersona.put("nombre","Sandra Fabiola");
+            jsonPersona.put("paterno","Ramirez");
+            jsonPersona.put("materno","Martinez");
+            jsonPersona.put("genero","FEMALE");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            jsonNacimiento.put("fecha","23-08-1995");
+            jsonNacimiento.put("pais","México");
+            jsonNacimiento.put("estado","Guanajuato");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            jsonDocumento.put("tipo","CURP");
+            jsonDocumento.put("clave","RAMS950823MGTMRN04");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            jsonDireccion.put("calle","5 de Mayo");
+            jsonDireccion.put("numero","2");
+            jsonDireccion.put("colonia","San Pedro de los Natranjos");
+            jsonDireccion.put("estado","GU");
+            jsonDireccion.put("pais","MEX");
+            jsonDireccion.put("codigo","38931");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            jsonContacto.put("numero","4661165435");
+            jsonContacto.put("correo","rfabi442@gmail.com");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            jsonGeneral.put("persona",jsonPersona);
+            jsonGeneral.put("nacimiento",jsonNacimiento);
+            jsonGeneral.put("documento",jsonDocumento);
+            jsonGeneral.put("direccion",jsonDireccion);
+            jsonGeneral.put("contacto",jsonContacto);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonGeneral.toString();
+    }
+
+    @Override
+    public void onClick(View view) {
+        String json = generarJSON();
+        Log.i("respuesta",json);
     }
 }
