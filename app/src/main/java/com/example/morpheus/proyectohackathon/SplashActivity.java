@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     public void iniciarApp()
     {
         //CAMBIAR EL COLOR DE LA BARRA DE NAVEGACION
-        getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorAzulOscuro));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
 
         //ASIGNACIÓN DE CONTROLES
         imgZoom = findViewById(R.id.imgSplasScreen);

@@ -8,7 +8,6 @@
     android:background="@color/colorAzulOscuro"
     tools:context=".SplashActivity">
 
-    <!--Imagen logotipo Marquesada-->
     <ImageView
         android:id="@+id/imgSplasScreen"
         android:layout_width="0dp"
