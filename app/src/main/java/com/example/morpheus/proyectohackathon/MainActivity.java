@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.morpheus.proyectohackathon.Fragments.Camara;
+
 import java.util.jar.Manifest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -37,16 +39,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
 
+
         switch (v.getId()){
 
             case R.id.btnAbrirCamara:
 
-                Intent i = new Intent(this, CamaraActivity.class );
-                startActivity(i);
+                fragment = new Camara();
 
                 break;
 
         }
+
+
+        if (fragment != null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.contentPrincial, fragment).addToBackStack(null).commit();
+
     }
 
 

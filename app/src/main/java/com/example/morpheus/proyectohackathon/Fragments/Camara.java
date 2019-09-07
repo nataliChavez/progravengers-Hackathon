@@ -39,6 +39,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.morpheus.proyectohackathon.BuildConfig;
 import com.example.morpheus.proyectohackathon.R;
 
 import org.json.JSONArray;
@@ -65,6 +68,7 @@ public class Camara extends Fragment {
     Uri imageUri;
     boolean tomarFoto=false;
 
+    private final static String MY_PROVIDER = BuildConfig.APPLICATION_ID + ".providers.FileProvider";
     private static final int COD_SELECCIONADA = 10;
     private static final int COD_FOTO = 20;
 
@@ -271,12 +275,12 @@ public class Camara extends Fragment {
                     }catch (Exception e){
                         Toast.makeText(getContext(), "Error inesperado", Toast.LENGTH_SHORT).show();
 
-                        Fragment nuevofragmento = new ArticuloFotosFragment();
+                      /*  Fragment nuevofragmento = new ArticuloFotosFragment();
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
                         transaction.replace(R.id.content_admin, nuevofragmento);
                         transaction.addToBackStack(null);
                         transaction.commit();
-                        e.printStackTrace();
+                        e.printStackTrace();*/
                     }
 
 
@@ -284,24 +288,24 @@ public class Camara extends Fragment {
                     break;
 
                 case RESULT_CANCELED:
-                    Toast.makeText(getContext(), "¡No selecciono ninguna imagen!", Toast.LENGTH_LONG).show();
-                    Fragment nuevofragmento = FragmentCamara.getIntance(idArchivoFoto ,actualizarFoto,numeroRegistro,nombreImagen, marca, modelo, tipoArticulo);
+                  Toast.makeText(getContext(), "¡No selecciono ninguna imagen!", Toast.LENGTH_LONG).show();
+                     /* Fragment nuevofragmento = FragmentCamara.getIntance(idArchivoFoto ,actualizarFoto,numeroRegistro,nombreImagen, marca, modelo, tipoArticulo);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.content_admin, nuevofragmento);
                     transaction.addToBackStack(null);
                     transaction.commit();
-                    break;
+                    break;*/
 
             }
 
         } else {
 
             Toast.makeText(getContext(), "¡No selecciono ninguna imagen!", Toast.LENGTH_LONG).show();
-            Fragment nuevofragmento = FragmentCamara.getIntance(idArchivoFoto,actualizarFoto,numeroRegistro, nombreImagen, marca, modelo, tipoArticulo);
+           /*   Fragment nuevofragmento = FragmentCamara.getIntance(idArchivoFoto,actualizarFoto,numeroRegistro, nombreImagen, marca, modelo, tipoArticulo);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.content_admin, nuevofragmento);
             transaction.addToBackStack(null);
-            transaction.commit();
+            transaction.commit();*/
         }
     }
 
@@ -310,23 +314,21 @@ public class Camara extends Fragment {
 
         //Variables para comprobar si la carpeta ya existe encaso de no crearla.
         boolean carpetaCreda;
-        File carperaImagenesATC;
+        File imagenesBVA;
 
-        carperaImagenesATC=new File(Environment.getExternalStorageDirectory(),DIRECTORIO_IMAGEN);
-        carpetaCreda = carperaImagenesATC.exists();
+        imagenesBVA=new File(Environment.getExternalStorageDirectory(),DIRECTORIO_IMAGEN);
+        carpetaCreda = imagenesBVA.exists();
 
         //variable para verificar la esistencia de la carpeta que alamacenara las fotos en el dispositivo
 
         //Verificamos si la carpeta ya esta creada
         if(carpetaCreda==false){
             //Si aun no esta creada entra y crea la carpeta ademas de mandar el mensaje al usuario
-            carpetaCreda = carperaImagenesATC.mkdirs();
+            carpetaCreda = imagenesBVA.mkdirs();
         }
 
         //Antes de abrir la cara verifica una vez mas que la carpete aya sido creada  de lo contrario no realizara la toma de fotografias ni el guardado de esta
         if(carpetaCreda==true){
-
-
             //Estraemos el tiempo transcurrido para darle nombre a la imagen
             Long consecutivo= System.currentTimeMillis()/1000;
             //Lo guardaos en la variable nombre y le damos el formato deseado
@@ -360,71 +362,16 @@ public class Camara extends Fragment {
 
     public void CargarWebService () {
 
-        /*Inicializacion de variable resquest*/
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        String nombre = campoNombre.getText().toString() + ".png";
-        nombre = nombre.replace(" ", "_");
-        nombre = nombre.toLowerCase();
-        nombre = eliminarAcentos(nombre);
-        String consulta="";
-        if(actualizarFoto=="1"){
-            consulta = "UPDATE articulo_imagen SET url ='"+nombre+"', articulo_id='"+ idArchivoFoto+"' WHERE id="+ numeroRegistro+";";
-        }else {
-            consulta = "INSERT INTO articulo_imagen(url,articulo_id)VALUES('" + nombre + "'," + idArchivoFoto + ");";
-        }
 
-        consulta = consulta.replace(" ", "%20");
-        String cadenaClaveCliente = "?host=" + HOST + "&db=" + DB_LOCAL + "&usuario=" + USER + "&pass=" + PASS + "&consulta=" + consulta;
-        String url = SERVER + RUTA_GENERAL + "consultaGeneral.php" + cadenaClaveCliente;
-
-        JsonArrayRequest requestInsert = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(getContext(), "Error en imagen", Toast.LENGTH_SHORT).show();
-            }
-        });
-        queue.add(requestInsert);
+        Toast.makeText(getContext(), "CargarWebService", Toast.LENGTH_SHORT).show();
     }
 
 
     public void CargarImagenServidor(){
 
-        request = Volley.newRequestQueue(getContext());
+        Toast.makeText(getContext(), "CargarImagenServidor", Toast.LENGTH_SHORT).show();
 
-        String url = SERVER+RUTA_GENERAL+"wsJSONRegistroMovil.php?";
-
-        // Solicitar una respuesta de cadena de la URL proporcionada.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressDialog.dismiss();
-                Toast.makeText(getContext(),"¡Imagen Cargada",Toast.LENGTH_LONG).show();
-                Toast.makeText(getContext(), "Datos Guardados", Toast.LENGTH_LONG).show();
-                Fragment nuevofragmento = new ArticuloFotosFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_admin, nuevofragmento);
-                transaction.addToBackStack(null);
-                transaction.commit();
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-                /*Mensaje de error al usuario*/
-                //variable encargada de guardar el mensaje de error
-                errores.listarerrores(volleyError,getContext());
-
-            }
-        }){
-            /*Este metodo nos devuelve todos los valores dentro de un map*/
+            /*Este metodo nos devuelve todos los valores dentro de un map
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 String actualizarFotoBD = actualizarFoto;
@@ -435,7 +382,7 @@ public class Camara extends Fragment {
                 String borrarImagenBD = nombreImagen;
                 String imagen = ConvertirImagenString(bitmap);
 
-                /*Alimentamos el Map con los datos deseados*/
+                /*Alimentamos el Map con los datos deseados
 
                 Map<String,String> paramemetros = new HashMap<>();
                 paramemetros.put("actualizarFoto",actualizarFotoBD);
@@ -448,7 +395,7 @@ public class Camara extends Fragment {
             }
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(20000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        request.add(stringRequest);
+        request.add(stringRequest);*/
     }
 
 
