@@ -1,17 +1,22 @@
 package com.example.morpheus.proyectohackathon;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.morpheus.proyectohackathon.Fragments.localizacionFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button btnRegistro;
+    private Button btnRegistro, btnLocalizacion;
+    Fragment fragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +24,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         btnRegistro = findViewById(R.id.btnRegistro);
+        btnLocalizacion = findViewById(R.id.btnLocalizacion);
 
         btnRegistro.setOnClickListener(this);
+        btnLocalizacion.setOnClickListener(this);
+
 
 
     }
@@ -92,7 +100,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        String json = generarJSON();
-        Log.i("respuesta",json);
+        switch (view.getId())
+        {
+            case R.id.btnRegistro:
+                String json = generarJSON();
+                Log.i("respuesta",json);
+                break;
+
+            case R.id.btnLocalizacion:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment fragment = new localizacionFragment();
+                fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+                break;
+
+        }
+
     }
 }

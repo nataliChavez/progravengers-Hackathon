@@ -4,6 +4,7 @@
 
     //TEXTO CONTROLES
     <string name="registro">Crear cuenta</string>
+    <string name="localizacion">Localizacion</string>
 
 
 </resources>
