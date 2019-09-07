@@ -18,10 +18,10 @@ import com.example.morpheus.proyectohackathon.Fragments.localizacionFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.jar.Manifest;
+import com.example.morpheus.proyectohackathon.Fragments.Camara;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button btnRegistro, btnAbrirCamara;
+    private Button btnRegistro, btnAbrirCamara,btnLocalizacion;
 
     private Fragment fragment = null;
 
@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-
         try {
             jsonGeneral.put("persona",jsonPersona);
             jsonGeneral.put("nacimiento",jsonNacimiento);
@@ -124,15 +123,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Fragment fragment = new localizacionFragment();
                 fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
                 break;
-
             case R.id.btnAbrirCamara:
 
-                Intent i = new Intent(this, CamaraActivity.class );
-                startActivity(i);
+                fragment = new Camara();
 
                 break;
 
+
+
         }
+
+
+        if (fragment != null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.contentPrincial, fragment).addToBackStack(null).commit();
+
+
 
     }
 
