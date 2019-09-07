@@ -14,7 +14,8 @@
     //Colores Generales
 
     <color name="colorBlanco">#ffffff</color>
-    <color name="colorGris">#BDBDBD</color><![CDATA[
+    <color name="colorGris">#BDBDBD</color>
+    <color name="colorTransparente">#00FFFFFF</color>
 
 
 
@@ -67,5 +68,4 @@
 
     //COLORES COMPAÑIAS ACTIVACHIP
 
-    ]]>
 </resources>
