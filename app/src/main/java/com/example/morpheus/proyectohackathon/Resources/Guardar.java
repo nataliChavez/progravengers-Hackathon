@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -17,11 +18,13 @@ import java.util.Calendar;
 
 public class Guardar {
     private Context context;
-    private String NombreCarpeta = "/Nuevacarpeta";
+    private String NombreCarpeta = "/imagenesBVA";
     private String NombreArchivo = "imagen";
 
-    public void GuardarImagen(Context context, Bitmap ImageToSave) {
+    public String GuardarImagen(Context context, Bitmap guardadImagen) {
+
         this.context = context;
+
         String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + NombreCarpeta;
         String nombreImagen = ObtenerFechaYHora();
         File dir = new File(file_path);
@@ -30,19 +33,32 @@ public class Guardar {
         }
         File file = new File(dir, NombreArchivo + nombreImagen + ".jpg");
         try {
+
             FileOutputStream fOut = new FileOutputStream(file);
-            ImageToSave.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+            guardadImagen.compress(Bitmap.CompressFormat.JPEG, 30, fOut);
             fOut.flush();
             fOut.close();
+
             CrearArxhivo(file);
+
             ImagenGuardada();
+
         }
         catch(FileNotFoundException e) {
+
             NoSePuedeGardar();
-        }
-        catch(IOException e) {
+
+            return null;
+
+        } catch(IOException e) {
+
             NoSePuedeGardar();
+
+            return null;
         }
+
+
+        return file_path +"/"+NombreArchivo+""+nombreImagen+".jpg";
     }
 
     //Asegúrese de que el archivo esté creado y luego póngalo disponible

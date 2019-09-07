@@ -123,9 +123,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Fragment fragment = new localizacionFragment();
                 fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
                 break;
-            case R.id.btnAbrirCamara:
 
-                fragment = new Camara();
+            case R.id.btnAbrirCamara:
+                FragmentManager fragmentMang = getSupportFragmentManager();
+                Fragment   fragmento = new Camara();
+                fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragmento).commit();
 
                 break;
 
@@ -134,8 +136,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        if (fragment != null)
-            getSupportFragmentManager().beginTransaction().replace(R.id.contentPrincial, fragment).addToBackStack(null).commit();
 
 
 
