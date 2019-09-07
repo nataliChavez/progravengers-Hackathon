@@ -9,13 +9,25 @@
     >
 
     <ImageView
-        android:id="@+id/imgFoto"
+        android:id="@+id/imgFotoFrontal"
         android:src="@drawable/camara"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin"
         />
+
+
+
+    <ImageView
+        android:id="@+id/imgFotoLateral"
+        android:src="@drawable/camara"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin"
+        />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

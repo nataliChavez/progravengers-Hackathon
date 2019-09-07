@@ -1,12 +1,9 @@
 package com.example.morpheus.proyectohackathon.Fragments;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
@@ -18,9 +15,6 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,17 +26,8 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -50,15 +35,10 @@ import com.example.morpheus.proyectohackathon.BuildConfig;
 import com.example.morpheus.proyectohackathon.R;
 import com.example.morpheus.proyectohackathon.Resources.Guardar;
 
-import org.json.JSONArray;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class Camara extends Fragment {
@@ -82,13 +62,15 @@ public class Camara extends Fragment {
 
     EditText campoNombre ;
     Button botonRegistro, btnFoto;
-    ImageView imgFoto;
+    ImageView imgFotoFrontal, imgFotoLateral;
     TextView txtMarca, txtModelo, txtTipo;
     ProgressDialog progressDialog;
     RequestQueue request;
 
     File imagenesBVA;
     String nombreImagen;
+
+
 
     boolean foto = true;
 
@@ -100,7 +82,7 @@ public class Camara extends Fragment {
 
         /* asignacion de controles*/
         btnFoto = vista.findViewById(R.id.btnFoto);
-        imgFoto = vista.findViewById(R.id.imgFoto);
+        imgFotoFrontal = vista.findViewById(R.id.imgFotoFrontal);
 
         setHasOptionsMenu(true);
         progressDialog = new ProgressDialog(getContext());
@@ -152,7 +134,7 @@ public class Camara extends Fragment {
                      * */
 
 
-                    Log.i("data",data +"");
+
                     MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
                             new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
@@ -168,7 +150,7 @@ public class Camara extends Fragment {
                         String resultadoImagen = RedimensionarImagen(bitmap, 300, 600);
 
 
-
+                        Log.i("resultadoImagen",resultadoImagen);
 
                        if ( resultadoImagen != null){
 
@@ -178,7 +160,7 @@ public class Camara extends Fragment {
                                    .centerCrop()
                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                                    .thumbnail(0.5f)
-                                   .into(imgFoto);
+                                   .into(imgFotoFrontal);
 
                            File dir = imagenesBVA;
                            File file = new File(dir, nombreImagen);
@@ -202,7 +184,7 @@ public class Camara extends Fragment {
                                    .centerCrop()
                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                                    .thumbnail(0.5f)
-                                   .into(imgFoto);
+                                   .into(imgFotoFrontal);
 
                        }
 
