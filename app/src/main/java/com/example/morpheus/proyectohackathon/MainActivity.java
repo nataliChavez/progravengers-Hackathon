@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnLocalizacion:
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment fragment = new localizacionFragment();
-                fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
                 break;
 
             case R.id.btnAbrirCamara:

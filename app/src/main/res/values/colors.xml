@@ -2,64 +2,51 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#00BCD4</color>
 
 
     //Colores Logotipo el codigo es el correspondiente al de los colores del logotivo
 
-    <color name="colorLogoVerde">#00a859</color>
-    <color name="colorLogoAzul">#3e4095</color>
-    <color name="colorLogoAmarillo">#fef212</color>
-    <color name="colorLogoCian">#00afef</color>
-
-    <color name="colorLogoAzulMarquesada">#0d57ba</color>
-    <color name="colorLogoNegroMarquesada">#00347b</color>
-
     //Colores Oscuros necesarios paralos degradados
 
-    <color name="colorVerdeOscuro">#008e4b</color>
     <color name="colorAzulOscuro">#2a2ca2</color>
-    <color name="colorGrisOscuros">#8e8e8e</color>
 
     //Colores Generales
 
     <color name="colorBlanco">#ffffff</color>
-    <color name="colorNegro">#000000</color>
-    <color name="colorNergoTraslucido">#96000000</color>
-    <color name="colorGrisTraslucido">#7e5b5b5b</color>
-    <color name="colorGris">#BDBDBD</color>
-    <color name="colorGrisClaro">#dedede</color>
-    <color name="colorTransparente">#00FFFFFF</color>
-    <color name="colorGrisBoon">#0DFFFFFF</color>
-    <color name="colorNegroLogo">#2c2c2c</color>
-    <color name="colorAzulRegistro">#E142A5F5</color>
+    <color name="colorGris">#BDBDBD</color><![CDATA[
+
+
+
+
+
 
     //Colores Mensajes
-    <color name="colorErrores">#D32F2F</color>
-    <color name="colorAdvertencia">#FFC107</color>
-    <color name="colorAmarillo">#A9B08605</color>
-    <color name="colorExito">#BC90929C</color>
-
-    <color name="colorArticulos">#DB0F0F</color>
 
 
-    <color name="colorSalidas">#b21111</color>
-    <color name="colorSalidasBarra">#a14949</color>
-    <color name="colorIconos">#873d3d</color>
 
 
-    <color name="errorColorVersion">#99E20000</color>
-    <color name="errorColorVersionBotopn">#AFADAD</color>
+
+
+
+
+
+
+
+
+
+
+
 
 
     //Colores Tema Cliente
 
-    <color name="primaryColorCliente">#0d57ba</color>
-    <color name="primaryDarkColorCliente">#013d8c</color>
-    <color name="primaryLightColorCliente">#3e90ff</color>
-    <color name="accentColorCliente">#00afef</color>
-    <color name="spinnerColorCliente">#3e4095</color>
-    <color name="colorMenuCliente">#b32c2c2c</color>
+
+
+
+
+
+
 
 
 
@@ -69,46 +56,16 @@
     //#00727d
     //accentColorAdministracion">#8bb900
 
-    <color name="primaryCo">#5CACA0</color>
-    <color name="primaryColorAdministracion">#3e4095</color>
-    <color name="primaryDarkColorAdministracion">#31337a</color>
-    <color name="primaryLightColorAdministracion">#9bd0e7</color>
-    <color name="accentColorAdministracion">#00a859</color>
-    <color name="spinnerColorAdministracion">#3e4095</color>
-
 
 
     //Colores Tema Ruta
 
-    <color name="primaryColorRuta">#00a859</color>
-    <color name="primaryDarkColorRuta">#388E3C</color>
-    <color name="primaryLightColorRuta">#C8E6C9</color>
-    <color name="accentColorRuta">#03A9F4</color>
-    <color name="spinnerColorRuta">#3e4095</color>
-    <color name="primaryContadorVenta">#AE00A859</color>
-
     //Colores Tema Consignación
-    <color name="primaryColorConsignacion">#008d86</color>
-    <color name="primaryDarkColorConsignacion">#006964</color>
-    <color name="primaryLightColorConsignacion">#C8E6C9</color>
-    <color name="accentColorConsignacion">#03A9F4</color>
-    <color name="spinnerColorConsignacion">#3e4095</color>
 
     //Colores Estrellas
-
-    <color name="colorOro">#FFD700</color>
-    <color name="colorPlata">#C0C0C0</color>
-    <color name="colorBronce">#8c7853</color>
 
 
     //COLORES COMPAÑIAS ACTIVACHIP
 
-    <color name="telcel">#0B4DA2</color>
-    <color name="movistar">#8DC63F</color>
-    <color name="unefon">#ffc600</color>
-    <color name="att">#00A8E0</color>
-
-    <color name="colorGrisSesion">#90EDEDF1</color>
-    <color name="colorCasiBlanco">#B0F7F7F8</color>
-
+    ]]>
 </resources>
