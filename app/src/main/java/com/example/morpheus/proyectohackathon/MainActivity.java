@@ -188,22 +188,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void uploadFoto(File file,String url) {
-
-        HttpClient httpclient = new DefaultHttpClient();
-        httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-        HttpPost httppost = new HttpPost(url);
-        MultipartEntity mpEntity = new MultipartEntity();
-        ContentBody foto = new FileBody(file, "multipart/form-data");
-        mpEntity.addPart("img", foto);
-        httppost.setEntity(mpEntity);
-        try {
-            httpclient.execute(httppost);
-            httpclient.getConnectionManager().shutdown();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

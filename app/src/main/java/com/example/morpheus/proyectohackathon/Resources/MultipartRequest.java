@@ -1,6 +1,8 @@
 package com.example.morpheus.proyectohackathon.Resources;
 
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -123,8 +125,7 @@ import java.util.Map;
 public class MultipartRequest extends Request<String> {
 
     MultipartEntityBuilder entity = MultipartEntityBuilder.create();
-    HttpEntity httpentity;
-    private String FILE_PART_NAME = "imgs";
+    private String FILE_PART_NAME = "img";
 
     private final Response.Listener<String> mListener;
     private final File mFilePart;
@@ -137,14 +138,7 @@ public class MultipartRequest extends Request<String> {
         this.mFilePart = file;
         this.mStringPart = mStringPart;
 
-        entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        try {
-            entity.setCharset(CharsetUtils.get("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
         buildMultipartEntity();
-        httpentity = entity.build();
     }
 
     // public void addStringBody(String param, String value) {
@@ -155,6 +149,8 @@ public class MultipartRequest extends Request<String> {
 
     private void buildMultipartEntity() {
         entity.addPart(FILE_PART_NAME, new FileBody(mFilePart, ContentType.create("multipart/form-data"), mFilePart.getName()));
+      //  entity.addBinaryBody(FILE_PART_NAME,mFilePart,ContentType.create("multipart/form-data"), mFilePart.getName());
+        entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (mStringPart != null) {
             for (Map.Entry<String, String> entry : mStringPart.entrySet()) {
                 entity.addTextBody(entry.getKey(), entry.getValue());
@@ -164,17 +160,19 @@ public class MultipartRequest extends Request<String> {
 
     @Override
     public String getBodyContentType() {
-        return httpentity.getContentType().getValue();
+        String contentTypeHeader = entity.build().getContentType().getValue();
+        return contentTypeHeader;
     }
 
     @Override
     public byte[] getBody() throws AuthFailureError {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
-            httpentity.writeTo(bos);
+            entity.build().writeTo(bos);
         } catch (IOException e) {
             VolleyLog.e("IOException writing to ByteArrayOutputStream");
         }
+
         return bos.toByteArray();
     }
 
