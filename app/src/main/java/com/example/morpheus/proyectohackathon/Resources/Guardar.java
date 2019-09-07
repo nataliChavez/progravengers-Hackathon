@@ -20,9 +20,8 @@ public class Guardar {
 
     private Context context;
     private String NombreCarpeta = "/imagenesBVA";
-    private String NombreArchivo = "imagen";
 
-    public String GuardarImagen(Context context, Bitmap guardadImagen) {
+    public String GuardarImagen(Context context, Bitmap guardadImagen, String NombreArchivo) {
 
         this.context = context;
 
@@ -32,11 +31,12 @@ public class Guardar {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        File file = new File(dir, NombreArchivo + nombreImagen + ".jpg");
+        File file = new File(dir,   nombreImagen+NombreArchivo + ".jpg");
         try {
 
             FileOutputStream fOut = new FileOutputStream(file);
             guardadImagen.compress(Bitmap.CompressFormat.JPEG, 30, fOut);
+
             fOut.flush();
             fOut.close();
 

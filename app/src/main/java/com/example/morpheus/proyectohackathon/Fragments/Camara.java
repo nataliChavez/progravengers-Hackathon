@@ -78,6 +78,8 @@ public class Camara extends Fragment {
     private static final int COD_SELECCIONADA = 10;
     private static final int COD_FOTO = 20;
 
+    private static int contadorFotos=0;
+
     EditText campoNombre ;
     Button botonRegistro, btnFoto;
     ImageView imgFoto;
@@ -88,8 +90,7 @@ public class Camara extends Fragment {
     File imagenesBVA;
     String nombreImagen;
 
-    ExifInterface exif;
-    int rotation ;
+    boolean foto = true;
 
 
     @Override
@@ -98,16 +99,9 @@ public class Camara extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_camara, container, false);
 
         /* asignacion de controles*/
-        campoNombre = vista.findViewById(R.id.edtNombre);
-        botonRegistro = vista.findViewById(R.id.btnRegistrar);
         btnFoto = vista.findViewById(R.id.btnFoto);
         imgFoto = vista.findViewById(R.id.imgFoto);
-        txtMarca = vista.findViewById(R.id.txtMarcaC);
-        txtModelo = vista.findViewById(R.id.txtModeloC);
-        txtTipo = vista.findViewById(R.id.txtTipoC);
-        txtMarca.setText(marca);
-        txtModelo.setText(modelo);
-        txtTipo.setText(tipoArticulo);
+
         setHasOptionsMenu(true);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("En Proceso");
@@ -115,30 +109,6 @@ public class Camara extends Fragment {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         /*Escuchar cuando el boton registro es precionado hace un llamdo al metodo
          * subir imagen*/
-        botonRegistro.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                progressDialog.show();
-                if ((campoNombre.getText().toString()).length() > 0 && bitmap!=null){
-                    SubirImagen();
-                }else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setIcon(R.drawable.cancelar);
-                    builder.setTitle("Hacen falta datos");
-                    builder.setMessage("Debe completar los campos requeridos");
-                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    });
-                    builder.show();
-                }
-
-            }
-        });
 
 
         /*Escuchar si el boon para tomar foto es precionado
@@ -146,13 +116,14 @@ public class Camara extends Fragment {
         btnFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (bitmap == null ){
-                    abrirCamara();
-                }else{
-                    bitmap = null;
-                    abrirCamara();
-                }
-                tomarFoto=true;
+
+
+
+                        Toast.makeText(getContext(), "Tome una foto de frente", Toast.LENGTH_SHORT).show();
+
+
+                            abrirCamara();
+
             }
         });
 
@@ -194,7 +165,7 @@ public class Camara extends Fragment {
                         bitmap = BitmapFactory.decodeFile(path);
 
 
-                        String resultadoImagen = RedimensionarImagen(bitmap, 120, 120);
+                        String resultadoImagen = RedimensionarImagen(bitmap, 300, 600);
 
 
 
@@ -209,8 +180,20 @@ public class Camara extends Fragment {
                                    .thumbnail(0.5f)
                                    .into(imgFoto);
 
+                           File dir = imagenesBVA;
+                           File file = new File(dir, nombreImagen);
+                           boolean deleted = file.delete();
 
 
+
+                           if(deleted){
+
+                               Log.i("Imagen", "ImagenEliminada");
+                           }else {
+
+                               Log.i("Imagen", "Chafio la eiminacion brow");
+
+                           }
                        }else{
 
                            Glide.with(getContext())
@@ -222,11 +205,6 @@ public class Camara extends Fragment {
                                    .into(imgFoto);
 
                        }
-
-
-
-
-
 
                     }catch (Exception e){
                         Toast.makeText(getContext(), "Error inesperado", Toast.LENGTH_SHORT).show();
@@ -468,7 +446,24 @@ public class Camara extends Fragment {
             Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,ancho,alto,matrix,false);
             Log.i(" imagen","Cambio de tamaño" );
 
-            resultadoImagen = guardarImagen.GuardarImagen(getContext(),bitmap1);
+            if (foto){
+
+                resultadoImagen = guardarImagen.GuardarImagen(getContext(),bitmap1,"_Frontal" );
+
+                foto = false;
+
+                abrirCamara();
+
+            }else {
+
+
+                resultadoImagen = guardarImagen.GuardarImagen(getContext(),bitmap1,"_Lateral" );
+
+                foto = true;
+
+
+            }
+
 
             return resultadoImagen;
 
