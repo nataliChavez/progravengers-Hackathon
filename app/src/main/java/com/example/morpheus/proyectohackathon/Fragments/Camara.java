@@ -411,13 +411,55 @@ public class Camara extends Fragment {
         int ancho=bitmap.getWidth();
         int alto=bitmap.getHeight();
         String resultadoImagen = "";
+        Matrix matrix=new Matrix();
+
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED);
+
+
+
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+               //  bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+
+        }
 
         if(ancho>anchoNuevo || alto>altoNuevo){
 
             float escalaAncho=Float.parseFloat("0.18382353");
             float escalaAlto=Float.parseFloat("0.3267974");
 
-            Matrix matrix=new Matrix();
+
             matrix.postScale(escalaAncho,escalaAlto);
 
             Guardar guardarImagen = new Guardar();

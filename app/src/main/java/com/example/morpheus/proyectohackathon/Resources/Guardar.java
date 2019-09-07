@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Guardar {
+
     private Context context;
     private String NombreCarpeta = "/imagenesBVA";
     private String NombreArchivo = "imagen";
