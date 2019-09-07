@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/contentPrincial"
     tools:context=".MainActivity">
-
-
 
 
     <Button
@@ -24,10 +23,20 @@
         android:layout_height="wrap_content"
         android:text="@string/localizacion"/>
 
+
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/btnLocalizacion"/>
 
-</RelativeLayout >
+
+    <Button
+        android:text="Abrir Camara"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btnAbrirCamara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
+

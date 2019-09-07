@@ -3,7 +3,12 @@ package com.example.morpheus.proyectohackathon;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +18,12 @@ import com.example.morpheus.proyectohackathon.Fragments.localizacionFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.example.morpheus.proyectohackathon.Fragments.Camara;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button btnRegistro, btnLocalizacion;
-    Fragment fragment = null;
+    private Button btnRegistro, btnAbrirCamara,btnLocalizacion;
+
+    private Fragment fragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +32,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnRegistro = findViewById(R.id.btnRegistro);
         btnLocalizacion = findViewById(R.id.btnLocalizacion);
+        btnAbrirCamara  = findViewById(R.id.btnAbrirCamara);
+
 
         btnRegistro.setOnClickListener(this);
         btnLocalizacion.setOnClickListener(this);
+        btnAbrirCamara.setOnClickListener(this);
+
+        checkCameraPermission();
 
 
 
@@ -84,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-
         try {
             jsonGeneral.put("persona",jsonPersona);
             jsonGeneral.put("nacimiento",jsonNacimiento);
@@ -112,8 +123,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Fragment fragment = new localizacionFragment();
                 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
                 break;
+            case R.id.btnAbrirCamara:
+
+                fragment = new Camara();
+
+                break;
+
+
 
         }
+
+
+        if (fragment != null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.contentPrincial, fragment).addToBackStack(null).commit();
+
+
+
+    }
+
+    private void checkCameraPermission() {
 
     }
 }
