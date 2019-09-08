@@ -17,8 +17,8 @@ import com.example.morpheus.proyectohackathon.R;
 public class MenuInicial extends Fragment implements View.OnClickListener {
 
 
-    Button btnLocalizacion;
-
+    Button btnLocalizacion,btnPerfil;
+    FragmentManager fragmentMang;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,22 +29,34 @@ public class MenuInicial extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
+        fragmentMang = getActivity().getSupportFragmentManager();
         btnLocalizacion = view.findViewById(R.id.btnSucursales);
+        btnPerfil = view.findViewById(R.id.btnPerfil);
+
+        btnPerfil.setOnClickListener(this);
+        btnLocalizacion.setOnClickListener(this);
+
+
     }
 
     @Override
     public void onClick(View v) {
 
+        Fragment fragment = null;
         switch (v.getId()){
 
             case R.id.btnSucursales:
 
-                FragmentManager fragmentMang = getActivity().getSupportFragmentManager();
-                Fragment fragmento = new localizacionFragment();
-                fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
+                fragment = new localizacionFragment();
+                fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragment).commit();
 
+
+                break;
+
+            case R.id.btnPerfil:
+
+                fragment = new perfilFragment();
+                fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragment).commit();
 
                 break;
 

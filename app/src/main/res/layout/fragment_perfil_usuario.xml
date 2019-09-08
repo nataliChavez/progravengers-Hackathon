@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!-- Toolbar Usuario Contenedor Imagen-->
+    <RelativeLayout
+    android:background="@drawable/degradado_registro"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
+
+        <!-- Imagen de usuario-->
+        <ImageView
+            android:id="@+id/imgImagenUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="10dp"
+            android:src="@drawable/bbva_logo"
+            android:layout_marginTop="30dp"
+            />
+
+    <TextView
+        android:id="@+id/infoCuenta"
+        android:layout_marginTop="40dp"
+        android:text="Infornación de mi cuenta"
+        android:textColor="@color/colorBlanco"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="@dimen/texto_mediano"
+        android:layout_below="@id/imgImagenUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Contenedor Secundario-->
+    <RelativeLayout
+        android:layout_below="@id/infoCuenta"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
+        >
+
+
+        <!-- RelativeLayout Calificacion de usuario-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+
+            <!-- TextView Contendor de Texto -->
+            <TextView
+                android:id="@+id/txtNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin"
+                android:text="Nombre Usuario"
+                android:textColor="@color/colorBlanco"
+                android:textSize="@dimen/texto_mediano"
+                android:layout_marginBottom="@dimen/margin"
+                android:textStyle="normal" />
+
+            <!-- ImageView Icono Nombre Usuario-->
+            <ImageView
+                android:id="@+id/iconNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txtNombre"
+                android:layout_marginTop="@dimen/margin"
+                android:src="@drawable/ic_perfil_usuario_nombre_usuario" />
+
+            <!-- EditText Nombre-->
+            <EditText
+                android:id="@+id/edtNombreUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtNombre"
+                android:layout_toEndOf="@+id/iconDireccion"
+                android:layout_marginStart="@dimen/margin"
+                android:textColor="@color/colorBlanco"
+                android:enabled="false"
+                android:text="Sandra Fabiola Ramirez Martínez"
+                android:inputType="textPersonName|textCapWords|textAutoCorrect|textAutoComplete"
+                />
+
+            <!-- TextView Contendor de Texto -->
+            <TextView
+                android:id="@+id/txtDireccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edtNombreUsuario"
+                android:layout_marginTop="@dimen/margin"
+                android:text="Dirección"
+                android:layout_marginBottom="@dimen/margin"
+                android:textColor="@color/colorBlanco"
+                android:textSize="@dimen/texto_mediano"
+                android:textStyle="normal" />
+
+            <!-- ImageView Icono Direccion Usuario-->
+            <ImageView
+                android:id="@+id/iconDireccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txtDireccion"
+                android:layout_marginTop="@dimen/margin"
+                android:src="@drawable/ic_perfil_usuario_direccion_usuario" />
+
+            <!-- EditText Direcion-->
+            <EditText
+                android:id="@+id/edtDireccionUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtDireccion"
+                android:layout_toEndOf="@+id/iconDireccion"
+                android:textColorLink="@color/colorBlanco"
+                android:layout_marginStart="@dimen/margin"
+                android:maxLines="8"
+                android:text="5 de mayo Nº2,Salvatierra,Gto."
+                android:textColor="@color/colorBlanco"
+                android:enabled="false"
+                android:inputType="textAutoCorrect|textAutoComplete|textImeMultiLine"
+                />
+
+            <ImageButton
+                android:id="@+id/btnLocalizarUsuario"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/txtDireccion"
+                android:layout_toEndOf="@+id/edtDireccionUsuario"
+                android:background="@color/colorTransparente"
+                android:visibility="invisible"
+                />
+
+            <!-- TextView Contendor de Texto -->
+            <TextView
+                android:id="@+id/txtTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teléfono"
+                android:textColor="@color/colorBlanco"
+                android:layout_marginTop="@dimen/margin"
+                android:textSize="@dimen/texto_mediano"
+                android:textStyle="normal"
+                android:layout_marginBottom="@dimen/margin"
+                android:layout_below="@+id/edtDireccionUsuario"
+                android:layout_alignParentStart="true" />
+
+            <!-- ImageView Icono Telefono Usuario-->
+            <ImageView
+                android:id="@+id/iconTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txtTelefono"
+                android:layout_marginTop="@dimen/margin"
+                android:src="@drawable/ic_perfil_usuario_telefono_usuario" />
+
+            <!-- EditText Telefono-->
+            <EditText
+                android:id="@+id/edttxtTelefonoUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTelefono"
+                android:inputType="phone|textImeMultiLine"
+                android:maxLength="10"
+                android:text="4661165435"
+                android:layout_marginStart="@dimen/margin"
+                android:enabled="false"
+                android:textColor="@color/colorBlanco"
+                android:layout_toEndOf="@+id/iconTelefono" />
+
+
+
+            <TextView
+                android:id="@+id/txtCuenta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cuenta"
+                android:textColor="@color/colorBlanco"
+                android:layout_marginTop="@dimen/margin"
+                android:textSize="@dimen/texto_mediano"
+                android:textStyle="normal"
+                android:layout_marginBottom="@dimen/margin"
+                android:layout_below="@+id/edttxtTelefonoUsuario"
+                android:layout_alignParentStart="true" />
+
+            <!-- ImageView Icono Telefono Usuario-->
+            <ImageView
+                android:id="@+id/iconCuenta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txtCuenta"
+                android:layout_marginTop="@dimen/margin"
+                android:src="@drawable/ic_perfil_usuario_telefono_usuario" />
+
+            <!-- EditText Telefono-->
+            <EditText
+                android:id="@+id/edtCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCuenta"
+                android:inputType="phone|textImeMultiLine"
+                android:maxLength="20"
+                android:text="12345678901234567890"
+                android:layout_marginStart="@dimen/margin"
+                android:enabled="false"
+                android:textColor="@color/colorBlanco"
+                android:layout_toEndOf="@+id/iconCuenta" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

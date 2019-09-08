@@ -257,12 +257,14 @@ public class Camara extends Fragment {
                         startActivity(intent,bundle);
 
 
+                    }else{
+                        Toast.makeText(getContext(), "No se ha podido iniciar sesion", Toast.LENGTH_SHORT).show();
                     }
 
 
                 } catch (JSONException e) {
 
-                    Toast.makeText(getContext(), "Ya chafio esto brow", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No se ha podido iniciar sesion", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -271,6 +273,7 @@ public class Camara extends Fragment {
             @Override
             public void consultaFailed(String error, int codigo) {
                 dialogoProgreso.dismiss();
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
 
             }
         });
