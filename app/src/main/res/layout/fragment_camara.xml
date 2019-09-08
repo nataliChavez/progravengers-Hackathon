@@ -8,25 +8,6 @@
     android:background="@color/colorGris"
     >
 
-    <ImageView
-        android:id="@+id/imgFotoFrontal"
-        android:src="@drawable/camara"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin"
-        />
-
-
-
-    <ImageView
-        android:id="@+id/imgFotoLateral"
-        android:src="@drawable/camara"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin"
-        />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -36,12 +17,12 @@
         >
         <Button
             android:id="@+id/btnFoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:text="Tomar Foto"
             android:textColor="@color/colorBlanco"
             android:textAllCaps="false"
-
             />
+
     </LinearLayout>
 </LinearLayout>
