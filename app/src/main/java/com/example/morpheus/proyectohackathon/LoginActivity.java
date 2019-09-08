@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
@@ -14,7 +15,8 @@ import android.widget.ViewSwitcher;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity  implements View.OnClickListener{
+    private Button btnIniciarSesion;
     private ImageSwitcher imageSwitcher;
     private int [] slider = {R.drawable.mexico_1, R.drawable.guanajuato,R.drawable.mexico_2, R.drawable.guanajuato_2};
     private int positon;
@@ -28,11 +30,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         imageSwitcher = findViewById(R.id.imageSwitcher);
+        btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
 
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
         imageSwitcher.setInAnimation(fadeIn);
         imageSwitcher.setOutAnimation(fadeOut);
+
+        btnIniciarSesion.setOnClickListener(this);
 
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory()
         {
@@ -46,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         startSlider();
+
 
     }
 
@@ -68,5 +74,10 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         }, 0, DURACION);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
