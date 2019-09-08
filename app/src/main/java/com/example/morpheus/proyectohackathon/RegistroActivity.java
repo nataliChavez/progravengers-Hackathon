@@ -3,21 +3,42 @@ package com.example.morpheus.proyectohackathon;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.morpheus.proyectohackathon.DAO.ClienteDAO;
+import com.example.morpheus.proyectohackathon.DAO.DAO;
+import com.example.morpheus.proyectohackathon.Resources.CrearProgressDialog;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText edtNombre,edtapellidoPaterno,edtApellidoMaterno,edtCurp,edtTelefono,edtEmail,edtCalle,edtNumero,edtColonia;
     private TextView txtGenero,txtfechaNacimiento;
     private Button btnRegistro;
 
+    private ClienteDAO clienteDAO = ClienteDAO.getInstance();
+
+    //CREAR PROGRESSDIALOG
+    private CrearProgressDialog progressDialog;
+    private ProgressDialog dialogoProgreso;
+    private String genero;
+    private String fechaInicio;
+    private int dia, mes, anio;
+    //PARA OBTENER LA FECHA ACTUAL
+    private Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +57,19 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         txtfechaNacimiento = findViewById(R.id.txtfechaNacimiento);
         btnRegistro = findViewById(R.id.btnRegistrarCuenta);
 
+        //INICIALIZAMOS EL PROGRESS DIALOG
+        progressDialog = new CrearProgressDialog();
 
+        //OBTENEMOS LOS VALORES DE LA FECHA DE HOY
+        dia = calendar.get(Calendar.DAY_OF_MONTH);
+        mes = calendar.get(Calendar.MONTH) + 1;
+        anio = calendar.get(Calendar.YEAR);
 
         btnRegistro.setOnClickListener(this);
         txtGenero.setOnClickListener(this);
         txtfechaNacimiento.setOnClickListener(this);
+
+        genero = txtGenero.getText().toString();
 
     }
 
@@ -48,21 +77,89 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-
             case R.id.btnRegistrarCuenta:
+                if (edtNombre.length() > 0 && edtApellidoMaterno.length()> 0 && edtapellidoPaterno.length() > 0 && edtEmail.length() > 0 &&
+                        edtNombre.length() > 0 && edtColonia.length() > 0 ){
+                    if (edtCurp.length() == 18 ){
+
+                        if (edtTelefono.getText().length() == 10){
+                            dialogoProgreso = progressDialog.CargarProgressDialog(RegistroActivity.this);
+                            registrarCuenta(edtNombre.getText().toString(),edtapellidoPaterno.getText().toString(),edtApellidoMaterno.getText().toString(),"FEMALE","1995-08-23",
+                                    edtCurp.getText().toString(),edtCalle.getText().toString(),edtNumero.getText().toString(),edtTelefono.getText().toString(),edtColonia.getText().toString(),edtEmail.getText().toString());
+
+                        }else{
+                            edtTelefono.setError("El teléfono no es valido");
+
+                        }
+                    }else{
+                        edtCurp.setError("El curp no es valido");
+                        
+                    }
+                }else{
+                    Toast.makeText(this, "Hay campos vacios", Toast.LENGTH_SHORT).show();
+                }
+
             break;
 
             case R.id.txtGenero:
+                alert().show();
                 break;
 
             case R.id.txtfechaNacimiento:
+                DateInicial();
                 break;
 
 
         }
     }
+
+    //PERMITE HACER UN REGISTRO EN LA BD
+    public void registrarCuenta(String nombre,String paterno,String materno,String genero,String fecha,String curp,String calle,String numero,String telefono,String colonia,String correo){
+        JSONObject jsonObject = generarJSON(nombre,paterno,materno,genero,fecha,curp,calle,numero,telefono,colonia,correo);
+        clienteDAO.registrarCuenta(RegistroActivity.this, jsonObject, new DAO.OnResultadoConsulta<JSONObject>() {
+            @Override
+            public void consultaSuccess(JSONObject jsonObject) {
+                dialogoProgreso.dismiss();
+                JSONObject jsonResult;
+                JSONObject jsonData;
+                JSONObject jsonAccount;
+                JSONArray jsonnumberFormats;
+                String cuenta;
+                String info;
+
+                if (jsonObject != null){
+                    try {
+                        jsonResult = jsonObject.getJSONObject("result");
+                        info = jsonResult.getString("info");
+                        jsonData = jsonObject.getJSONObject("data");
+                        jsonAccount = jsonData.getJSONObject("account");
+                        jsonnumberFormats = jsonAccount.getJSONArray("numberFormats");
+                        cuenta = jsonnumberFormats.getJSONObject(0).getString("number");
+
+                        Toast.makeText(RegistroActivity.this, info, Toast.LENGTH_SHORT).show();
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(RegistroActivity.this, "Esta en el catch", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                }
+
+            }
+
+            @Override
+            public void consultaFailed(String error, int codigo) {
+                dialogoProgreso.dismiss();
+
+            }
+        });
+
+    }
+
     //PERMITE GENERAR EL JSON CON LOS DATOS DEL CLIENTE
-    public String generarJSON(String nombre,String apellidoP,String apellidoM,String genero,String fecha,String curp,String calle,String numero,String telefono,
+    public JSONObject generarJSON(String nombre,String apellidoP,String apellidoM,String genero,String fecha,String curp,String calle,String numero,String telefono,
                               String colonia,String correo){
         JSONObject jsonGeneral = new JSONObject();
         JSONObject jsonPersona = new JSONObject();
@@ -82,8 +179,8 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         try {
             jsonNacimiento.put("fecha",fecha);
-            jsonNacimiento.put("pais","México");
-            jsonNacimiento.put("estado","Guanajuato");
+            jsonNacimiento.put("pais","MEX");
+            jsonNacimiento.put("estado","GU");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -101,7 +198,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             jsonDireccion.put("colonia",colonia);
             jsonDireccion.put("estado","GU");
             jsonDireccion.put("pais","MEX");
-            jsonDireccion.put("codigo","38931");
+            jsonDireccion.put("CP","38931");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -124,8 +221,59 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             e.printStackTrace();
         }
 
-        return jsonGeneral.toString();
-    }  //PERMJITE ARMAR EL JSON CON LOS DATOS QUE NECESITA LA API
+        return jsonGeneral;
+    }
+
+    private AlertDialog alert(){
+        final String []opciones = getResources().getStringArray(R.array.opcionesGenero);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Elija una opción:");
+        builder.setCancelable(false);
+        builder.setSingleChoiceItems(opciones, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                genero = opciones[i];
+            }
+        });
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                txtGenero.setText(genero);
+
+            }
+        });
+
+
+      return  builder.create();
+    }
+
+    //MUESTRA EL DATETIME PICKER DE LA FECHA INCIAL
+    public void DateInicial() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(RegistroActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+                int Day, Month, Year;
+                Year = datePicker.getYear();
+                Month = datePicker.getMonth() + 1;
+                Day = datePicker.getDayOfMonth();
+                fechaInicio = Year + "/" + Month + "/" + Day;
+                txtfechaNacimiento.setText(String.format("%1$02d/%2$02d/%3$04d", Day, Month, Year));
+
+                if (Day != 0 || Month != 0 || Year != 0) {
+                    anio = Year;
+                    mes = Month;
+                    dia = Day;
+                }
+            }
+
+        }, anio, mes - 1, dia);
+        datePickerDialog.show();
+        datePickerDialog.setCanceledOnTouchOutside(false);
+    }
+
+
 
 
 }
