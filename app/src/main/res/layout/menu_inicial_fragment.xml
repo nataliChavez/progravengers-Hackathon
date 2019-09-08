@@ -1,8 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlanco">
+
+
+    <RelativeLayout
+        android:id="@+id/ContenedorCabecera"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/fondo_app_bbvan"
+        android:padding="@dimen/padding"
+        >
 
 
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:background="@drawable/logo_bbva"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ContenedorCabecera"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/btnPerfil"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/margin_mitad"
+                    android:background="@color/colorTransparente"
+                    android:drawableTop="@drawable/ic_perfil"
+                    android:paddingTop="@dimen/texto_mediano"
+                    android:text="Perfil"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/texto_mediano" />
+
+                <Button
+                    android:id="@+id/btnDetallesCuenta"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/margin_mitad"
+                    android:background="@color/colorTransparente"
+                    android:drawableTop="@drawable/ic_detalles_cuenta"
+                    android:paddingTop="@dimen/texto_mediano"
+                    android:text="Detalles Cuenta"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/texto_mediano" />
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/btnMovimientos"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/margin_mitad"
+                    android:background="@color/colorTransparente"
+                    android:drawableTop="@drawable/ic_movimientos"
+                    android:paddingTop="@dimen/texto_mediano"
+                    android:text="Movientos"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/texto_mediano" />
+
+                <Button
+                    android:id="@+id/btnSucursales"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/margin_mitad"
+                    android:background="@color/colorTransparente"
+                    android:drawableTop="@drawable/ic_localizacion"
+                    android:paddingTop="@dimen/texto_mediano"
+                    android:text="Sucursales"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/texto_mediano" />
+            </TableRow>
+
+
+
+
+                <Button
+                    android:id="@+id/btnCerrarSesion"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/margin_mitad"
+                    android:background="@color/colorTransparente"
+                    android:drawableTop="@drawable/ic_exit"
+                    android:paddingTop="@dimen/texto_mediano"
+                    android:text="Salir"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/texto_mediano" />
+
+        </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>

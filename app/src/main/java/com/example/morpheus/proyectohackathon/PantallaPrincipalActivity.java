@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.example.morpheus.proyectohackathon.Fragments.MenuInicial;
 import com.google.android.material.navigation.NavigationView;
 
 public class PantallaPrincipalActivity extends AppCompatActivity
@@ -53,6 +55,11 @@ public class PantallaPrincipalActivity extends AppCompatActivity
         toggle.syncState();
 
         nombre = getIntent().getStringExtra("NOMBRE");
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = new MenuInicial();
+        fragmentManager.beginTransaction().replace(R.id.contentPrincial, fragment).commit();
+
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
