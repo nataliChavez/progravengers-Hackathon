@@ -72,23 +72,5 @@ public class ImagenDAO {
             httpEntity = builder.build();
         }
 
-        Prueba.POST post = new Prueba.POST(context,url,httpEntity);
-        post.getResponse(new Peticion.OnPeticionListener<String>() {
-            @Override
-            public void onSuccess(String s) {
-                Log.i("respuesta",s);
-
-            }
-
-            @Override
-            public void onFailed(String s, int i) {
-                Log.i("respuesta",s);
-
-            }
-        });
-
-
-
-
     }
 }

@@ -6,5 +6,11 @@
     <string name="registro">Crear cuenta</string>
     <string name="localizacion">Localizacion</string>
 
+    <string-array name="opcionesGenero">
+        <item>FEMALE</item>
+        <item>MALE</item>
+    </string-array>
+
+
 
 </resources>

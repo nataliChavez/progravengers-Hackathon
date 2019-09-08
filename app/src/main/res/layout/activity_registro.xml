@@ -98,14 +98,13 @@
 
                     <EditText
                         android:id="@+id/edtApellidoMaterno"
-                        android:maxLength="6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/margin"
                         android:layout_marginStart="@dimen/margin"
                         android:paddingEnd="@dimen/padding"
                         android:hint="Apellido Materno"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textCapSentences"/>
 
                 </LinearLayout>
 
@@ -220,7 +219,7 @@
                         android:layout_marginStart="@dimen/margin"
                         android:paddingEnd="@dimen/padding"
                         android:hint="Número"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="number"/>
 
                 </LinearLayout>
 
