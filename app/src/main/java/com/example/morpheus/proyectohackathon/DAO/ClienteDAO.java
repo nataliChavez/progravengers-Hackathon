@@ -52,4 +52,28 @@ public class ClienteDAO {
 
     }
 
+
+    public void iniciarSesion(Context context, String json, final  DAO.OnResultadoConsulta<JSONObject>listener){
+
+        String url = Constantes.HOST_PUERTO+"";
+
+        HashMap params = new HashMap();
+        Peticion.POST post = new Peticion.POST(context,url,params);
+        post.getResponse(new Peticion.OnPeticionListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+
+
+
+            }
+
+            @Override
+            public void onFailed(String s, int i) {
+
+            }
+        });
+
+
+    }
+
 }

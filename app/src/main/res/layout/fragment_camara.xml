@@ -15,6 +15,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         >
+
         <Button
             android:id="@+id/btnFoto"
             android:layout_width="200dp"

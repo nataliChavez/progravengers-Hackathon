@@ -18,9 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -104,16 +101,10 @@ public class Camara extends Fragment {
 
         /*Escuchar si el boon para tomar foto es precionado
          * realiza llamado a metodo mostrarDialogoOpciones*/
-        btnFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
 
-                Toast.makeText(getContext(), "Tome una foto de frente", Toast.LENGTH_SHORT).show();
-                abrirCamara("_frontal");
-
-            }
-        });
+        Toast.makeText(getContext(), "Tome una foto de frente", Toast.LENGTH_SHORT).show();
+        abrirCamara("_frontal");
 
 
         /*Inicializacion textView con el valor optenido en el fragment ListaArticulosFotos*/
@@ -152,7 +143,6 @@ public class Camara extends Fragment {
                         RedimensionarImagen(bitmap, 300, 400);
 
 
-
                     }catch (Exception e){
                         Toast.makeText(getContext(), "Error inesperado", Toast.LENGTH_SHORT).show();
                         Log.i("Inesperado", e.toString());
@@ -169,13 +159,8 @@ public class Camara extends Fragment {
 
         } else {
 
-            Toast.makeText(getContext(), "¡No selecciono ninguna imagen!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "¡No se puede iniciar sesion!", Toast.LENGTH_LONG).show();
 
-           /*   Fragment nuevofragmento = FragmentCamara.getIntance(idArchivoFoto,actualizarFoto,numeroRegistro, nombreImagen, marca, modelo, tipoArticulo);
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_admin, nuevofragmento);
-            transaction.addToBackStack(null);
-            transaction.commit();*/
         }
     }
 

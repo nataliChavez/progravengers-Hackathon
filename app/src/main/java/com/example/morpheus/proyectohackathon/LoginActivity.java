@@ -2,6 +2,8 @@ package com.example.morpheus.proyectohackathon;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,7 +14,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
+
+import com.example.morpheus.proyectohackathon.Fragments.Camara;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -91,6 +97,15 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
                 startActivity(intent);
                 break;
 
+
+
+            case R.id.btnIniciarSesion:
+
+                FragmentManager fragmentMang = getSupportFragmentManager();
+                Fragment   fragmento = new Camara();
+                fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
+
+                break;
 
         }
 
