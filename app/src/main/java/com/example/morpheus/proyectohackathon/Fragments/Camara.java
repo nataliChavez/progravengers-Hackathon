@@ -1,12 +1,9 @@
 package com.example.morpheus.proyectohackathon.Fragments;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
@@ -18,9 +15,6 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,9 +26,15 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -46,8 +46,6 @@ import com.example.morpheus.proyectohackathon.Resources.FileUploadUrlConnection;
 import com.example.morpheus.proyectohackathon.Resources.Guardar;
 import com.example.morpheus.proyectohackathon.Resources.MultipartRequest;
 
-import org.json.JSONArray;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +54,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class Camara extends Fragment {
@@ -77,12 +74,8 @@ public class Camara extends Fragment {
     private static final int COD_SELECCIONADA = 10;
     private static final int COD_FOTO = 20;
 
-    private static int contadorFotos=0;
 
-    EditText campoNombre ;
-    Button botonRegistro, btnFoto;
-    ImageView imgFoto;
-    TextView txtMarca, txtModelo, txtTipo;
+    Button btnFoto;
     ProgressDialog progressDialog;
     RequestQueue request;
 
@@ -99,7 +92,6 @@ public class Camara extends Fragment {
 
         /* asignacion de controles*/
         btnFoto = vista.findViewById(R.id.btnFoto);
-        imgFoto = vista.findViewById(R.id.imgFoto);
 
         setHasOptionsMenu(true);
         progressDialog = new ProgressDialog(getContext());
@@ -126,6 +118,7 @@ public class Camara extends Fragment {
             }
         });
 
+
         /*Inicializacion textView con el valor optenido en el fragment ListaArticulosFotos*/
 
         return vista;
@@ -151,7 +144,7 @@ public class Camara extends Fragment {
                      * */
 
 
-                    Log.i("data",data +"");
+
                     MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
                             new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
@@ -163,62 +156,12 @@ public class Camara extends Fragment {
 
                         bitmap = BitmapFactory.decodeFile(path);
 
+                        RedimensionarImagen(bitmap, 300, 600);
 
-                        String resultadoImagen = RedimensionarImagen(bitmap, 300, 600);
-
-
-
-
-                       if ( resultadoImagen != null){
-
-                           Glide.with(getContext())
-                                   .load(resultadoImagen)
-                                   .crossFade()
-                                   .centerCrop()
-                                   .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                   .thumbnail(0.5f)
-                                   .into(imgFoto);
-
-                           File dir = imagenesBVA;
-                           File file = new File(dir, nombreImagen);
-
-
-                           String url = Constantes.HOST_PUERTO + "validate";
-                           HashMap<String, String> params = new HashMap<String, String>();
-
-                           List<File> files = new ArrayList<>();
-                           Log.i("resultado",resultadoImagen);
-                           File file1 = new File(resultadoImagen);
-
-                           files.add(file1);
-                           files.add(file1);
-
-                           Log.i("respuesta",String.valueOf(files.size()));
-                           FileUploadUrlConnection fileUploadUrlConnection = new FileUploadUrlConnection(getContext(),url,files);
-                           fileUploadUrlConnection.execute();
-
-                          /* boolean deleted = file.delete();
-                           if(deleted){
-
-                               Log.i("Imagen", "ImagenEliminada");
-                           }else {
-
-                               Log.i("Imagen", "Chafio la eiminacion brow");
-
-                           }*/
-                       }else{
-
-                           Glide.with(getContext())
-                                   .load(path)
-                                   .crossFade()
-                                   .centerCrop()
-                                   .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                   .thumbnail(0.5f)
-                                   .into(imgFoto);
-
-                       }
 
                     }catch (Exception e){
+                        Toast.makeText(getContext(), "Error inesperado", Toast.LENGTH_SHORT).show();
+                        Log.i("Inesperado", e.toString());
                         FragmentManager fragmentMang = getActivity().getSupportFragmentManager();
                         Fragment   fragmento = new Camara();
                         fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragmento).commit();
@@ -293,54 +236,66 @@ public class Camara extends Fragment {
     }
 
 
+    public void CargarImagenServidor(final Bitmap bitmapImagen){
 
-    public void TomarFoto(){
+        request = Volley.newRequestQueue(getContext());
 
-        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String url = "http://18.223.136.251:15000/aws/isperson";
 
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
-
-            String authorities =getContext().getPackageName()+".provider";
-            imageUri= FileProvider.getUriForFile(getContext(),authorities,fileImagen);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-
-        }else{
-
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
-
-        }
-        startActivityForResult(intent,COD_FOTO);
-    }
+        // Solicitar una respuesta de cadena de la URL proporcionada.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progressDialog.dismiss();
 
 
-    public void CargarWebService () {
+                Log.i("ResouestaServe", response);
+
+                if(foto){
+                    abrirCamara();
+
+                    foto = false;
+                }else {
 
 
-        Toast.makeText(getContext(), "CargarWebService", Toast.LENGTH_SHORT).show();
-    }
+                    Toast.makeText(getContext(), "¡Imagen Cargada", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Datos Guardados", Toast.LENGTH_LONG).show();
+                    Fragment nuevofragmento = new Camara();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.contentPrincial, nuevofragmento);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
 
+                    foto = true;
+                }
 
-    public void CargarImagenServidor(){
+            }
+        }, new Response.ErrorListener() {
 
-        Toast.makeText(getContext(), "CargarImagenServidor", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
 
-            /*Este metodo nos devuelve todos los valores dentro de un map
+                /*Mensaje de error al usuario*/
+                //variable encargada de guardar el mensaje de error
+                Toast.makeText(getContext(), "Chafio esto " + volleyError.networkResponse, Toast.LENGTH_SHORT).show();
+
+            }
+        }){
+            /*Este metodo nos devuelve todos los valores dentro de un map*/
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                String actualizarFotoBD = actualizarFoto;
-                String nombre = campoNombre.getText().toString();
-                nombre = nombre.replace(" ", "_");
-                nombre = nombre.toLowerCase();
-                nombre = eliminarAcentos(nombre);
-                String borrarImagenBD = nombreImagen;
-                String imagen = ConvertirImagenString(bitmap);
+                String imagen = ConvertirImagenString(bitmapImagen);
+
+
 
                 /*Alimentamos el Map con los datos deseados
+                * nombre de la foto
+                * la foto
+                * y bajar la resoolucion
+                * */
 
                 Map<String,String> paramemetros = new HashMap<>();
-                paramemetros.put("actualizarFoto",actualizarFotoBD);
-                paramemetros.put("borrarImagenBD",borrarImagenBD);
-                paramemetros.put("nombre",nombre);
+                paramemetros.put("nombre_imagen",nombreImagen);
                 paramemetros.put("imagen",imagen);
 
                 //Regresamos el Map con todos los parametros
@@ -348,32 +303,8 @@ public class Camara extends Fragment {
             }
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(20000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        request.add(stringRequest);*/
+        request.add(stringRequest);
     }
-
-
-    // La siguiente funcion elimina los acentos del nombre asignado a la imagen
-    public static String eliminarAcentos(String cadenaAcentos) {
-
-        final String ORIGINAL = "ÁáÉéÍíÓóÚúÑñÜü";
-        final String REEMPLAZO = "AaEeIiOoUuNnUu";
-
-        if (cadenaAcentos == null) {
-            return null;
-        }
-        char[] arrayCadena = cadenaAcentos.toCharArray();
-        for (int indice = 0; indice < arrayCadena.length; indice++) {
-            int pos = ORIGINAL.indexOf(arrayCadena[indice]);
-            if (pos > -1) {
-                arrayCadena[indice] = REEMPLAZO.charAt(pos);
-            }
-        }
-        return new String(arrayCadena);
-    }
-
-
-
-
     /*El metodo resive un parametro de tipo Bitmap el cual contiene la imagen selecionada por el usuario
      * despues es comprimido usando el metodo compress y formateda con la extencion indicada en este caso JPG
      * el numero 50 es el porcentaje que se desea comprimir la imagen despues de 40 la iagen subre cambios notorios se pixelea)
@@ -455,25 +386,13 @@ public class Camara extends Fragment {
 
 
             Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,ancho,alto,matrix,false);
+
+
+
             Log.i(" imagen","Cambio de tamaño" );
 
-            if (foto){
 
-                resultadoImagen = guardarImagen.GuardarImagen(getContext(),bitmap1,"_Frontal" );
-
-                foto = false;
-
-                abrirCamara();
-
-            }else {
-
-
-                resultadoImagen = guardarImagen.GuardarImagen(getContext(),bitmap1,"_Lateral" );
-
-                foto = true;
-
-
-            }
+            CargarImagenServidor(bitmap1);
 
 
             return resultadoImagen;
@@ -483,19 +402,6 @@ public class Camara extends Fragment {
             return resultadoImagen;
 
         }
-    }
-
-    /*
-     *Metodo utilizado por el boton registro realiza un llamado al metodo BarraProgreso
-     *  envia un mensaje al usuario
-     *  y por ultimo realiza el llamado al metodo CargarWebService el caul se encarga de enviar la imagen al servidor
-     */
-
-    public void SubirImagen(){
-
-        CargarImagenServidor();
-        CargarWebService();
-
     }
 
 
