@@ -9,6 +9,8 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -33,11 +35,15 @@ public class MenuInicial extends Fragment implements View.OnClickListener {
         btnLocalizacion = view.findViewById(R.id.btnSucursales);
         btnPerfil = view.findViewById(R.id.btnPerfil);
 
+
+
+        ActionBar toolbar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        toolbar.setTitle("Bienvenido");
+        toolbar.setSubtitle("");
+        btnLocalizacion = view.findViewById(R.id.btnSucursales);
+
         btnPerfil.setOnClickListener(this);
-        btnLocalizacion.setOnClickListener(this);
-
-
-    }
+        btnLocalizacion.setOnClickListener(this);    }
 
     @Override
     public void onClick(View v) {
@@ -46,10 +52,8 @@ public class MenuInicial extends Fragment implements View.OnClickListener {
         switch (v.getId()){
 
             case R.id.btnSucursales:
-
                 fragment = new localizacionFragment();
                 fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragment).commit();
-
 
                 break;
 

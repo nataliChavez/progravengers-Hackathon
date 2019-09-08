@@ -18,9 +18,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -241,7 +244,7 @@ public class Camara extends Fragment {
                 dialogoProgreso.dismiss();
                 int codigo ;
                 JSONObject jsonData;
-                String nombre;
+                String nombre,mensaje;
                 try {
 
                     codigo = jsonObject.getInt("codigo");
@@ -256,15 +259,17 @@ public class Camara extends Fragment {
                         bundle.putString("NOMBRE",nombre);
                         startActivity(intent,bundle);
 
-
                     }else{
-                        Toast.makeText(getContext(), "No se ha podido iniciar sesion", Toast.LENGTH_SHORT).show();
+                        mensaje = jsonObject.getString("mensaje");
+                        dialogoDespedida("No es posible iniciar sesion. "+mensaje).show();
+                      //  Toast.makeText(getContext(), "No es posible iniciar sesion. "+mensaje, Toast.LENGTH_SHORT).show();
+
                     }
 
 
                 } catch (JSONException e) {
 
-                    Toast.makeText(getContext(), "No se ha podido iniciar sesion", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Eror Inesperado", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -277,6 +282,9 @@ public class Camara extends Fragment {
 
             }
         });
+
+
+
 
        /* request = Volley.newRequestQueue(getContext());
 
@@ -353,6 +361,35 @@ public class Camara extends Fragment {
      * despues se convierte a formato Base64 y guardado en una variable string la cual es devuelta por el metodo.
      * */
 
+    private AlertDialog dialogoDespedida(String mensaje)
+    {
+        View vistaAlert = LayoutInflater.from(getContext()).inflate(R.layout.item_alertdialog_terminar_registro, null);
+        final Button btnAceptar = vistaAlert.findViewById(R.id.btnAceptar);
+        final TextView textMensajeIngresarCodigo = vistaAlert.findViewById(R.id.textMensajeIngresarCodigo);
+        textMensajeIngresarCodigo.setText(mensaje);
+        final ImageView imgError = vistaAlert.findViewById(R.id.imgError);
+        imgError.setImageDrawable(getContext().getDrawable(R.drawable.ic_mensaje_error));
+        TextView edtInfo = vistaAlert.findViewById(R.id.txtInfo);
+        TextView edtCuenta = vistaAlert.findViewById(R.id.txtCuenta);
+        edtCuenta.setVisibility(View.GONE);
+        edtInfo.setVisibility(View.GONE);
+        final AlertDialog.Builder  builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(false);
+        builder.setView(vistaAlert);
+
+        final AlertDialog alertdialog;
+        alertdialog = builder.create();
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertdialog.dismiss();
+            }
+
+        });
+
+        return alertdialog;
+    }
 
     public String ConvertirImagenString(Bitmap bitmap){
         ByteArrayOutputStream array = new ByteArrayOutputStream();
