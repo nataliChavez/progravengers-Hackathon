@@ -38,6 +38,8 @@ public class MenuInicial extends Fragment implements View.OnClickListener {
 
 
         btnLocalizacion = view.findViewById(R.id.btnSucursales);
+
+        btnLocalizacion.setOnClickListener(this);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class MenuInicial extends Fragment implements View.OnClickListener {
 
                 FragmentManager fragmentMang = getActivity().getSupportFragmentManager();
                 Fragment fragmento = new localizacionFragment();
-                fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
+                fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragmento).commit();
 
 
                 break;
