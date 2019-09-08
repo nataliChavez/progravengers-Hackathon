@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
             case R.id.btnIniciarSesion:
 
                 FragmentManager fragmentMang = getSupportFragmentManager();
-                Fragment   fragmento =  Camara.getInstance("login");
+                Fragment fragmento = Camara.getInstance("login");
                 fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
 
                 break;
