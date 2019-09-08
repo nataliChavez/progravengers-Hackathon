@@ -1,40 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAzulOscuro"
     tools:context=".RegistroActivity">
 
-
     <LinearLayout
-        android:gravity="center"
-        android:layout_marginTop="@dimen/margin"
-        android:orientation="horizontal"
-        android:id="@+id/linearBotones"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content">
 
-        <Button
-            android:background="@drawable/ic_informacion_personal"
-            android:layout_width="80dp"
-            android:layout_height="80dp"/>
-        <Button
-            android:background="@drawable/ic_informacion_domicilio"
-            android:layout_width="80dp"
-            android:layout_height="80dp"/>
-        <Button
-            android:background="@drawable/ic_informacion_domicilio"
-            android:layout_width="80dp"
-            android:layout_height="80dp"/>
-
-
+        <TextView
+            android:textAlignment="center"
+            android:id="@+id/txtTituloRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Por favor ingresa tu información personal"
+            android:textColor="@color/colorBlanco"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="@dimen/padding"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="@dimen/margin"
+            android:background="@drawable/fondo_registro_usuario"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_marginStart="@dimen/margin"
+                android:paddingEnd="@dimen/padding"
+                android:hint="Nombre(s)"
+                android:inputType="textPersonName|textCapWords|textAutoCorrect|textAutoComplete"/>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="15dp">
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="185dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:background="@drawable/fondo_registro_usuario"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtapellidoPaterno"
+                        android:maxLength="10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin"
+                        android:layout_marginStart="@dimen/margin"
+                        android:paddingEnd="@dimen/padding"
+                        android:hint="Apellido paterno"
+                        android:inputType="textCapSentences"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="185dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:background="@drawable/fondo_registro_usuario"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtApellidoMaterno"
+                        android:maxLength="6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin"
+                        android:layout_marginStart="@dimen/margin"
+                        android:paddingEnd="@dimen/padding"
+                        android:hint="Apellido Materno"
+                        android:inputType="textEmailAddress"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="@dimen/margin"
+                android:background="@drawable/fondo_registro_usuario"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtCurp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:layout_marginStart="@dimen/margin"
+                    android:paddingEnd="@dimen/padding"
+                    android:hint="CURP"
+                    android:maxLength="18"
+                    android:inputType="textCapCharacters"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="@dimen/margin"
+                android:background="@drawable/fondo_registro_usuario"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtTelefono"
+                    android:maxLength="10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:layout_marginStart="@dimen/margin"
+                    android:paddingEnd="@dimen/padding"
+                    android:hint="Teléfono"
+                    android:inputType="phone"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="@dimen/margin"
+                android:background="@drawable/fondo_registro_usuario"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:layout_marginStart="@dimen/margin"
+                    android:paddingEnd="@dimen/padding"
+                    android:hint="Correo electrónico"
+                    android:inputType="textEmailAddress"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="15dp">
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="250dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:background="@drawable/fondo_registro_usuario"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtCalle"
+                        android:maxLength="10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin"
+                        android:layout_marginStart="@dimen/margin"
+                        android:paddingEnd="@dimen/padding"
+                        android:hint="Calle"
+                        android:inputType="textCapSentences"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="120dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:background="@drawable/fondo_registro_usuario"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtNumero"
+                        android:maxLength="6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin"
+                        android:layout_marginStart="@dimen/margin"
+                        android:paddingEnd="@dimen/padding"
+                        android:hint="Número"
+                        android:inputType="textEmailAddress"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/margin"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="@dimen/margin"
+                android:background="@drawable/fondo_registro_usuario"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtColonia"
+                    android:maxLength="6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:layout_marginStart="@dimen/margin"
+                    android:paddingEnd="@dimen/padding"
+                    android:hint="Colonia"
+                    android:inputType="textEmailAddress"/>
+
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_margin="@dimen/margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textGenero"
+                    android:text="Género: "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/texto_grande"
+                    android:textColor="@color/colorBlanco"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/txtGenero"
+                    android:textAlignment="center"
+                    android:layout_alignBaseline="@id/txtGenero"
+                    android:textSize="@dimen/texto_mediano"
+                    android:text="Seleccionar"
+                    android:textColor="@color/colorBlanco"
+                    android:layout_toEndOf="@id/textGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_margin="@dimen/margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textfechaNacimiento"
+                    android:text="Fecha de Nacimiento: "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/texto_grande"
+                    android:textColor="@color/colorBlanco"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textAlignment="center"
+                    android:id="@+id/txtfechaNacimiento"
+                    android:layout_alignBaseline="@id/txtfechaNacimiento"
+                    android:textSize="@dimen/texto_mediano"
+                    android:text="Seleccionar"
+                    android:textColor="@color/colorBlanco"
+                    android:layout_toEndOf="@id/textfechaNacimiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+            <Button
+                android:gravity="center_horizontal"
+                android:text="Registrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
 
-
-</RelativeLayout>
+</LinearLayout>
