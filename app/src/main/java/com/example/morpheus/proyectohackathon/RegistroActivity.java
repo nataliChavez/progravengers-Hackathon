@@ -161,8 +161,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Toast.makeText(RegistroActivity.this, "Ocurrio un error inesperado. Intente de nuevo", Toast.LENGTH_SHORT).show();
                     }
                 }else{
+                    Toast.makeText(RegistroActivity.this, "Ocurrio un error inesperado. Intente de nuevo", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -171,6 +173,8 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void consultaFailed(String error, int codigo) {
                 dialogoProgreso.dismiss();
+                Toast.makeText(RegistroActivity.this, error, Toast.LENGTH_SHORT).show();
+
 
             }
         });

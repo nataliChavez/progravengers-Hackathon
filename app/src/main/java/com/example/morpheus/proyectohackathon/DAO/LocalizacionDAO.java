@@ -46,7 +46,7 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
         public void onSuccess(String s) {
             JSONObject jsonObject;
             JSONArray jsonArray;
-            Log.i("RespuestaUbicacion", s);
+            Log.i("respuesta", s);
 
             if(s.length() >0)
             {
@@ -55,16 +55,12 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
                     int codigo = jsonObject.getInt("codigo");
                     if(codigo == 1)
                     {
-                        Log.i("RespuestaUbicacion", jsonObject.toString());
                         jsonArray = jsonObject.getJSONArray("data");
-                        Log.i("RespuestaUbicacion", "estoy aqui");
 
                         if(jsonArray.length() > 0)
                         {
-                            Log.i("RespuestaUbicacion", jsonArray.length() + "");
 
                             List<LocalizacionBBVA> list = new ArrayList<>();
-                            Log.i("RespuestaUbicacion", "estoy");
 
 
                             for(int i = 0; i < jsonArray.length(); i++)
@@ -77,7 +73,6 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
                                 LocalizacionBBVA localizacion = new LocalizacionBBVA(jsonPeq.getString("name"),jsonPeq.getString("address"),
                                         jsonPeq.getString("postcode"),latitud,longitud);
 
-                                Log.i("respuesta",jsonPeq.getString("name"));
 
                                 list.add(localizacion);
 
