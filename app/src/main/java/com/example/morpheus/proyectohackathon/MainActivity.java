@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLocalizacion.setOnClickListener(this);
         btnAbrirCamara.setOnClickListener(this);
 
+
         checkCameraPermission();
     }
 
@@ -81,13 +83,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 MultipartRequest mr = new MultipartRequest(url, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.i("respuesta",error.toString());
+
+
 
                     }
                 }, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("respuesta",response);
+
+
 
                     }
                 },carpeta,params);
@@ -98,12 +102,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnLocalizacion:
+
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment fragment = new localizacionFragment();
                 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+
                 break;
 
             case R.id.btnAbrirCamara:
+
                 FragmentManager fragmentMang = getSupportFragmentManager();
                 Fragment   fragmento = new Camara();
                 fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragmento).commit();
