@@ -37,11 +37,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import com.example.morpheus.proyectohackathon.BuildConfig;
+import com.example.morpheus.proyectohackathon.DAO.ClienteDAO;
+import com.example.morpheus.proyectohackathon.DAO.DAO;
+import com.example.morpheus.proyectohackathon.LoginActivity;
 import com.example.morpheus.proyectohackathon.R;
+import com.example.morpheus.proyectohackathon.RegistroActivity;
 import com.example.morpheus.proyectohackathon.Resources.Constantes;
 import com.example.morpheus.proyectohackathon.Resources.FileUploadUrlConnection;
 import com.example.morpheus.proyectohackathon.Resources.Guardar;
 import com.example.morpheus.proyectohackathon.Resources.MultipartRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -67,6 +75,8 @@ public class Camara extends Fragment {
     Uri imageUri;
     boolean tomarFoto=false;
 
+    String imagen_frontal, imagen_latera, nombre_Fontal, nombre_lateral;
+
     private final static String MY_PROVIDER = BuildConfig.APPLICATION_ID + ".providers.FileProvider";
     private static final int COD_SELECCIONADA = 10;
     private static final int COD_FOTO = 20;
@@ -80,6 +90,8 @@ public class Camara extends Fragment {
     String nombreImagen;
 
     boolean foto = true;
+
+    ClienteDAO clienteDAO = new  ClienteDAO();
 
 
     @Override
@@ -126,10 +138,11 @@ public class Camara extends Fragment {
 
                 case COD_FOTO:
 
-                    /* NOTA AL GUARDAR LA FOTO EN UN URI EL onActivityResult DEVURLVE UN NULL POR LO QUE NO VA ENTRAR AL IF ...
+                    /*
+                     + NOTA AL GUARDAR LA FOTO EN UN URI EL onActivityResult DEVURLVE UN NULL POR LO QUE NO VA ENTRAR AL IF ...
                      * HAY QUE HACER UNA CONDICION PARA ESTE O NO MOSTRARA LA IMAGEN AUNQUE LA AYA GUARDADO YA EN LA EMORIA DLE TELEFONO
                      * CREO QUE NO ES NECESARIO EL switch PARA ESTO PERO DEBO CONSIDERAR EL BALOR DE CANCELAR PARA QUE NO CE CIERRE LA APP
-                     * */
+                     */
 
                     MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
                             new MediaScannerConnection.OnScanCompletedListener() {
@@ -220,9 +233,48 @@ public class Camara extends Fragment {
     }
 
 
-    public void CargarImagenServidor(final Bitmap bitmapImagen){
+    public void CargarImagenServidor(){
 
-        request = Volley.newRequestQueue(getContext());
+
+        clienteDAO.iniciarSesion(getContext(), imagen_frontal, imagen_latera, nombre_Fontal, nombre_lateral, new DAO.OnResultadoConsulta<JSONObject>() {
+            @Override
+            public void consultaSuccess(JSONObject jsonObject) {
+
+
+                int codigo ;
+                try {
+
+                    codigo = jsonObject.getInt("codigo");
+
+                    Log.i("codigo", codigo+"");
+
+                    if(codigo == 0){
+
+
+                        Toast.makeText(getContext(), "Hola ", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
+
+
+                    }
+
+
+                } catch (JSONException e) {
+
+                    Toast.makeText(getContext(), "Ya chafio esto brow", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+
+            @Override
+            public void consultaFailed(String error, int codigo) {
+
+            }
+        });
+
+       /* request = Volley.newRequestQueue(getContext());
 
         String url = "http://18.223.136.251:15000/aws/isperson";
 
@@ -258,13 +310,13 @@ public class Camara extends Fragment {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
 
-                /*Mensaje de error al usuario*/
+                /*Mensaje de error al usuario
                 //variable encargada de guardar el mensaje de error
                 Toast.makeText(getContext(), "Chafio esto " + volleyError.networkResponse, Toast.LENGTH_SHORT).show();
 
             }
         }){
-            /*Este metodo nos devuelve todos los valores dentro de un map*/
+            /*Este metodo nos devuelve todos los valores dentro de un map
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 String imagen = ConvertirImagenString(bitmapImagen);
@@ -275,7 +327,7 @@ public class Camara extends Fragment {
                 * nombre de la foto
                 * la foto
                 * y bajar la resoolucion
-                * */
+                *
 
                 Map<String,String> paramemetros = new HashMap<>();
                 paramemetros.put("nombre_imagen",nombreImagen);
@@ -289,7 +341,7 @@ public class Camara extends Fragment {
             }
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(20000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        request.add(stringRequest);
+        request.add(stringRequest);*/
     }
     /*El metodo resive un parametro de tipo Bitmap el cual contiene la imagen selecionada por el usuario
      * despues es comprimido usando el metodo compress y formateda con la extencion indicada en este caso JPG
@@ -376,7 +428,23 @@ public class Camara extends Fragment {
             Log.i(" imagen","Cambio de tamaño" );
 
 
-            CargarImagenServidor(bitmap1);
+            if (foto){
+
+                imagen_frontal = ConvertirImagenString(bitmap1);
+                nombre_Fontal = nombreImagen;
+                foto = false;
+                abrirCamara("_lateral");
+            }else {
+
+
+                imagen_latera = ConvertirImagenString(bitmap1);
+                nombre_lateral = nombreImagen;
+                foto = true;
+
+                CargarImagenServidor();
+            }
+
+
 
 
             return resultadoImagen;
