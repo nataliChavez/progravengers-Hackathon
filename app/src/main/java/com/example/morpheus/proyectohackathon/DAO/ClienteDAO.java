@@ -20,10 +20,10 @@ import java.util.HashMap;
 
 public class ClienteDAO {
 
-    private  static ClienteDAO clienteDAO;
+    private static ClienteDAO clienteDAO;
 
-    public static ClienteDAO getInstance(){
-        if (clienteDAO == null){
+    public static ClienteDAO getInstance() {
+        if (clienteDAO == null) {
             clienteDAO = new ClienteDAO();
         }
 
@@ -32,24 +32,24 @@ public class ClienteDAO {
 
 
     //PERMITE REGISTRAR UNA CUENTA DE UN CLIENTE NUEVO
-    public void registrarCuenta(Context context, JSONObject json, final DAO.OnResultadoConsulta<JSONObject>listener){
-        String url = Constantes.HOST_PUERTO+"bbva/createaccount";
-        Prueba.POST post = new Prueba.POST(context,url,json);
+    public void registrarCuenta(Context context, JSONObject json, final DAO.OnResultadoConsulta<JSONObject> listener) {
+        String url = Constantes.HOST_PUERTO + "bbva/createaccount";
+        Prueba.POST post = new Prueba.POST(context, url, json);
         post.getResponse(new Peticion.OnPeticionListener<JSONObject>() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                    int codigo;
-                    JSONObject jsonData;
+                int codigo;
+                JSONObject jsonData;
 
                 try {
                     codigo = jsonObject.getInt("codigo");
 
 
-                    if (codigo == 1){
+                    if (codigo == 1) {
                         jsonData = jsonObject.getJSONObject("data");
                         listener.consultaSuccess(jsonData);
 
-                    }else{
+                    } else {
                         listener.consultaSuccess(null);
                     }
                 } catch (JSONException e) {
@@ -60,40 +60,39 @@ public class ClienteDAO {
 
             @Override
             public void onFailed(String s, int i) {
-                Log.i("respuesta",s);
+                Log.i("respuesta", s);
                 listener.consultaFailed(s, i);
             }
         });
     }
 
 
-    public void iniciarSesion(Context context, String imagen1, String imagen2,String nombre1, String nombre2, final  DAO.OnResultadoConsulta<JSONObject>listener){
+    public void iniciarSesion(Context context, String imagen1, String imagen2, String nombre1, String nombre2, final DAO.OnResultadoConsulta<JSONObject> listener) {
 
-        String url = Constantes.HOST_PUERTO+"validate/base64";
+        String url = Constantes.HOST_PUERTO + "validate/base64";
 
         HashMap params = new HashMap();
         params.put("imagen1", imagen1);
-        params.put("nombre1",nombre1);
-        params.put("imagen2",imagen2);
-        params.put("nombre2",nombre2);
+        params.put("nombre1", nombre1);
+        params.put("imagen2", imagen2);
+        params.put("nombre2", nombre2);
 
 
-        Peticion.POST post = new Peticion.POST(context,url,params);
+        Peticion.POST post = new Peticion.POST(context, url, params);
         post.getResponse(new Peticion.OnPeticionListener<String>() {
             @Override
             public void onSuccess(String s) {
 
-                Log.i("respuesta",s);
+                Log.i("respuesta", s);
 
                 JSONObject jsonObject;
-                try
-                {
+                try {
                     jsonObject = new JSONObject(s);
                     if (jsonObject.length() > 0) {
 
                         listener.consultaSuccess(jsonObject);
 
-                    }else {
+                    } else {
 
                         listener.consultaSuccess(null);
 
@@ -111,8 +110,35 @@ public class ClienteDAO {
             }
         });
 
+    }
 
 
+    public void RegistroImagne(Context context, JSONObject json, final DAO.OnResultadoConsulta<JSONArray> listener) {
+
+        String url = Constantes.HOST_PUERTO + "bbva/createaccount";
+        Prueba.POST post = new Prueba.POST(context, url, json);
+        post.getResponse(new Peticion.OnPeticionListener<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                int codigo;
+                JSONObject jsonData;
+
+                try {
+                    codigo = jsonObject.getInt("codigo");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailed(String s, int i) {
+
+            }
+
+        });
     }
 
 }

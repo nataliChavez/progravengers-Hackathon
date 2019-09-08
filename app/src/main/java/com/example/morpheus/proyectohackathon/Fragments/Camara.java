@@ -445,8 +445,6 @@ public class Camara extends Fragment {
             }
 
 
-
-
             return resultadoImagen;
 
         }else{
@@ -454,6 +452,49 @@ public class Camara extends Fragment {
             return resultadoImagen;
 
         }
+    }
+
+
+
+
+    public void registrarImagenes(){
+
+
+
+
+
+    }
+
+
+
+
+
+    public JSONObject JSonImaganes(String imagen1, String imagen2, String nombre1, String nombre2, String nombreCliente, String apellidoCliente1, String apellidoCliente2){
+
+
+
+        JSONObject jsonImagenes = new JSONObject();
+
+
+        try{
+
+
+            jsonImagenes.put("imagen1",imagen1);
+            jsonImagenes.put("imagen2",imagen2);
+            jsonImagenes.put("nombre1",nombre1);
+            jsonImagenes.put("nombre2",nombre2);
+            jsonImagenes.put("nombreCliente",nombreCliente);
+            jsonImagenes.put("apellidoCliente1",apellidoCliente1);
+            jsonImagenes.put("apellidoCliente2",apellidoCliente2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return jsonImagenes;
+
+
     }
 
 
