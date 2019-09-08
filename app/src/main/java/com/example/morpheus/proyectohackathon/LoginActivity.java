@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -12,26 +13,29 @@ import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
-
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class LoginActivity extends AppCompatActivity  implements View.OnClickListener{
     private Button btnIniciarSesion;
     private ImageSwitcher imageSwitcher;
+    private Button btnRegistrarse;
+
     private int [] slider = {R.drawable.mexico_1, R.drawable.guanajuato,R.drawable.mexico_2, R.drawable.guanajuato_2};
     private int positon;
     private static final int DURACION = 6000;
     private Timer timer = null;
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        btnRegistrarse = findViewById(R.id.btnRegistrarse);
 
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorAzulOscuro));
 
+        btnRegistrarse.setOnClickListener(this);
         imageSwitcher = findViewById(R.id.imageSwitcher);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
 
@@ -80,7 +84,15 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnRegistrarse:
+                Intent intent = new Intent(LoginActivity.this,RegistroActivity.class);
+                startActivity(intent);
+                break;
+
+
+        }
 
 
     }

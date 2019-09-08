@@ -42,6 +42,16 @@
         <item name="colorPrimary">@color/colorTransparente</item>
     </style>
 
+    <style name="style_spinner_registro">
+        <item name="android:background">@drawable/fondo_spinner_registro</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/margin_mitad</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:popupBackground">@color/colorBlanco</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

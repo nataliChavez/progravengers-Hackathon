@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <layer-list>
+            <item>
+                <shape>
+                    <gradient
+                        android:angle="90"
+                        android:endColor="@color/colorBlanco"
+                        android:startColor="@color/colorBlanco"
+                        android:type="linear" />
+
+                    <corners
+                        android:radius="7dp" />
+
+                    <padding
+                        android:bottom="3dp"
+                        android:left="3dp"
+                        android:right="3dp"
+                        android:top="3dp" />
+                </shape>
+            </item>
+            <item
+                android:top="8dp"
+                android:left="210dp"
+                android:drawable="@drawable/ic_spinner_registro"
+                >
+            </item>
+        </layer-list>
+    </item>
+
+</selector>
