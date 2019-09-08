@@ -71,6 +71,8 @@ public class ClienteDAO {
             @Override
             public void onSuccess(String s) {
 
+                Log.i("respuesta",s);
+
                 JSONObject jsonObject;
                 try
                 {
