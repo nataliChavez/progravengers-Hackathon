@@ -41,12 +41,17 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import com.example.morpheus.proyectohackathon.BuildConfig;
 import com.example.morpheus.proyectohackathon.R;
+import com.example.morpheus.proyectohackathon.Resources.Constantes;
+import com.example.morpheus.proyectohackathon.Resources.FileUploadUrlConnection;
 import com.example.morpheus.proyectohackathon.Resources.Guardar;
+import com.example.morpheus.proyectohackathon.Resources.MultipartRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -56,6 +61,7 @@ public class Camara extends Fragment {
     private  String path;//Guarda la cadena de la imagen
 
     static String RUTA_MEMORIA = "/sdcard/";
+    private String resultadoImagen = "";
     private static  final String CARPETA_IMAGEN = "imagenesBVA";//Carpeta donde se guardan las fotos
     private static  final String DIRECTORIO_IMAGEN = RUTA_MEMORIA + CARPETA_IMAGEN;// CARPETA_PRINCIPAl+ CARPETA_IMAGEN;//RUTA CARPETA DE DIRECTORIO
     File fileImagen;//Guarda la foto
@@ -143,13 +149,13 @@ public class Camara extends Fragment {
                     try {
 
                         bitmap = BitmapFactory.decodeFile(path);
-
                         RedimensionarImagen(bitmap, 300, 400);
+
+
 
                     }catch (Exception e){
                         Toast.makeText(getContext(), "Error inesperado", Toast.LENGTH_SHORT).show();
                         Log.i("Inesperado", e.toString());
-
                         FragmentManager fragmentMang = getActivity().getSupportFragmentManager();
                         Fragment   fragmento = new Camara();
                         fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragmento).commit();
@@ -198,10 +204,10 @@ public class Camara extends Fragment {
             //Lo guardaos en la variable nombre y le damos el formato deseado
              nombreImagen =consecutivo.toString()+tipoFoto+".png";
 
+
             //Guaradamos la direccion del archivo
             path=Environment.getExternalStorageDirectory()+File.separator+DIRECTORIO_IMAGEN
                     +File.separator+nombreImagen;//indicamos la ruta de almacenamiento
-
 
             Log.i("nombreImagen", nombreImagen);
 
@@ -240,7 +246,6 @@ public class Camara extends Fragment {
             @Override
             public void onResponse(String response) {
                 progressDialog.dismiss();
-
 
                 Log.i("ResouestaServe", response);
 
@@ -329,7 +334,7 @@ public class Camara extends Fragment {
 
         int ancho=bitmap.getWidth();
         int alto=bitmap.getHeight();
-        String resultadoImagen = "";
+
         Matrix matrix=new Matrix();
 
         ExifInterface exif = null;
