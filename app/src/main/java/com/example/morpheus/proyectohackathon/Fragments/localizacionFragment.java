@@ -4,6 +4,7 @@ package com.example.morpheus.proyectohackathon.Fragments;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +35,9 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
     GoogleMap googleMap;
     SupportMapFragment supportMapFragment;
     private LocalizacionDAO localizacionDAO = LocalizacionDAO.getInstance();
+    private List<LocalizacionBBVA> localizacionList = new ArrayList<>();
     private List<LatLng> puntosGPSCajeros=new ArrayList<>();
+    private Marker CajeroMarker;
 
     @Nullable
     @Override
@@ -45,6 +51,7 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapLocalizacion);
         supportMapFragment.getMapAsync(this);
+        listarUbicacionCajeros();
 
 
     }
@@ -58,22 +65,29 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
 
     public void listarUbicacionCajeros()
     {
+        Log.i("Respuesta", "hola esto aqui");
         localizacionDAO.LocalizacionCajeros(getContext(), new DAO.OnResultadoListaConsulta<LocalizacionBBVA>() {
             @Override
             public void consultaSuccess(List<LocalizacionBBVA> t) {
                 if(t != null)
                 {
+
+                    localizacionList = t;
                     try
                     {
                         for (int i = 0; i < t.size(); i++)
                         {
+
                             puntosGPSCajeros.add(new LatLng(t.get(i).getLatitud(), t.get(i).getLongitud())); //LLENAMOS LA LISTA QUE PERMITE DIBUJAR LOS PUNTOS EN EL MAPA
+                            dibujarPuntosCajeros();
+                            Log.i("RespuestaUbicacion", puntosGPSCajeros.size() + "");
 
                         }
 
                     }
                     catch (Exception e)
                     {
+                        Log.i("RespuestaUbicacion", "Hola estoy en el catch");
                         e.printStackTrace();
                     }
                 }
@@ -85,4 +99,24 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
             }
         });
     }
-}
+
+    public void dibujarPuntosCajeros()
+    {
+        if(localizacionList != null)
+        {
+            for (int i = 1; i < localizacionList.size(); i++)
+            {
+                CajeroMarker = googleMap.addMarker(new MarkerOptions()
+                        .position(puntosGPSCajeros.get(i))
+                        .title(localizacionList.get(i).getName())
+                        .snippet(localizacionList.get(i).getAddress())
+                        .draggable(true).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_gps_cajero)));
+
+
+            }
+            }
+        }
+    }
+
+
+

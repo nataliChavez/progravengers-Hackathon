@@ -37,6 +37,7 @@ public  static LocalizacionDAO localizacionDAO;
 public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsulta<LocalizacionBBVA>listener)
 {
     String url = HOST_PUERTO + CARPETA_BBVA + "atms";
+    Log.i("respuesta",url);
 
     Peticion.GET get = new Peticion.GET(context,url);
 
@@ -45,6 +46,7 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
         public void onSuccess(String s) {
             JSONObject jsonObject;
             JSONArray jsonArray;
+            Log.i("RespuestaUbicacion", s);
 
             if(s.length() >0)
             {
@@ -53,13 +55,20 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
                     int codigo = jsonObject.getInt("codigo");
                     if(codigo == 1)
                     {
+                        Log.i("RespuestaUbicacion", jsonObject.toString());
                         jsonArray = jsonObject.getJSONArray("data");
+                        Log.i("RespuestaUbicacion", "estoy aqui");
 
                         if(jsonArray.length() > 0)
                         {
+
                             List<LocalizacionBBVA> list = new ArrayList<>();
-                            for(int i = 0; i < jsonArray.length(); i++ )
+                            Log.i("RespuestaUbicacion", "estoy");
+
+
+                            for(int i = 0; i < jsonArray.length(); i++)
                             {
+
                                 JSONObject jsonPeq = jsonArray.getJSONObject(i);
                                 JSONObject jsonCoordenadas = jsonPeq.getJSONObject("location");
                                 double latitud = Double.parseDouble(jsonCoordenadas.getString("lat"));
@@ -68,6 +77,7 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
                                         jsonPeq.getString("postcode"),latitud,longitud);
 
                                 list.add(localizacion);
+
                             }
                             listener.consultaSuccess(list);
 
@@ -93,6 +103,7 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
         @Override
         public void onFailed(String s, int i) {
             listener.consultaFailed(s,i);
+            Log.i("Respuesta","fallo");
         }
     });
 }

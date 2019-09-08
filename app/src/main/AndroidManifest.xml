@@ -14,7 +14,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PantallaPrincipalActivity"></activity>
+        <activity android:name=".PantallaPrincipalActivity"
+            android:windowSoftInputMode="stateHidden" >
+
+        </activity>
         <activity android:name=".RegistroActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SplashActivity">

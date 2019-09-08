@@ -44,13 +44,13 @@ public class PantallaPrincipalActivity extends AppCompatActivity
             public void onDrawerClosed(View drawerView)
             {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                inputMethodManager.hideSoftInputFromWindow(drawerView.getWindowToken(), 0);
             }
             @Override
             public void onDrawerOpened(View drawerView)
             {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                inputMethodManager.hideSoftInputFromWindow(drawerView.getWindowToken(), 0);
             }
         };
         drawer.setDrawerListener(toggle);
