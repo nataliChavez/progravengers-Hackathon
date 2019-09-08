@@ -103,11 +103,8 @@ public class Camara extends Fragment {
             public void onClick(View view) {
 
 
-
-                        Toast.makeText(getContext(), "Tome una foto de frente", Toast.LENGTH_SHORT).show();
-
-
-                            abrirCamara();
+                Toast.makeText(getContext(), "Tome una foto de frente", Toast.LENGTH_SHORT).show();
+                abrirCamara("_frontal");
 
             }
         });
@@ -137,8 +134,6 @@ public class Camara extends Fragment {
                      * CREO QUE NO ES NECESARIO EL switch PARA ESTO PERO DEBO CONSIDERAR EL BALOR DE CANCELAR PARA QUE NO CE CIERRE LA APP
                      * */
 
-
-
                     MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
                             new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
@@ -147,12 +142,9 @@ public class Camara extends Fragment {
                             });
                     try {
 
-
                         bitmap = BitmapFactory.decodeFile(path);
 
-                        RedimensionarImagen(bitmap, 300, 600);
-
-
+                        RedimensionarImagen(bitmap, 300, 400);
 
                     }catch (Exception e){
                         Toast.makeText(getContext(), "Error inesperado", Toast.LENGTH_SHORT).show();
@@ -172,6 +164,7 @@ public class Camara extends Fragment {
         } else {
 
             Toast.makeText(getContext(), "¡No selecciono ninguna imagen!", Toast.LENGTH_LONG).show();
+
            /*   Fragment nuevofragmento = FragmentCamara.getIntance(idArchivoFoto,actualizarFoto,numeroRegistro, nombreImagen, marca, modelo, tipoArticulo);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.content_admin, nuevofragmento);
@@ -181,7 +174,7 @@ public class Camara extends Fragment {
     }
 
 
-    private void abrirCamara(){
+    private void abrirCamara(String tipoFoto){
 
         //Variables para comprobar si la carpeta ya existe encaso de no crearla.
         boolean carpetaCreda;
@@ -203,11 +196,14 @@ public class Camara extends Fragment {
             //Estraemos el tiempo transcurrido para darle nombre a la imagen
             Long consecutivo= System.currentTimeMillis()/1000;
             //Lo guardaos en la variable nombre y le damos el formato deseado
-             nombreImagen =consecutivo.toString()+".png";
+             nombreImagen =consecutivo.toString()+tipoFoto+".png";
 
             //Guaradamos la direccion del archivo
             path=Environment.getExternalStorageDirectory()+File.separator+DIRECTORIO_IMAGEN
                     +File.separator+nombreImagen;//indicamos la ruta de almacenamiento
+
+
+            Log.i("nombreImagen", nombreImagen);
 
             // Creamos un File nuevo y le asignamos la ruta y nombre de la imagen
             fileImagen=new File(path);
@@ -225,7 +221,9 @@ public class Camara extends Fragment {
             }
             startActivityForResult(intent,COD_FOTO);
         }else {
+
             Toast.makeText(getContext(),"No se pudo Crear la carpeta",Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -247,14 +245,14 @@ public class Camara extends Fragment {
                 Log.i("ResouestaServe", response);
 
                 if(foto){
-                    abrirCamara();
+                    abrirCamara("_lateral");
 
                     foto = false;
                 }else {
 
-
                     Toast.makeText(getContext(), "¡Imagen Cargada", Toast.LENGTH_LONG).show();
                     Toast.makeText(getContext(), "Datos Guardados", Toast.LENGTH_LONG).show();
+
                     Fragment nuevofragmento = new Camara();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.contentPrincial, nuevofragmento);
@@ -293,6 +291,9 @@ public class Camara extends Fragment {
                 paramemetros.put("nombre_imagen",nombreImagen);
                 paramemetros.put("imagen",imagen);
 
+
+               Log.i( "Map",nombreImagen);
+
                 //Regresamos el Map con todos los parametros
                 return paramemetros;
             }
@@ -312,6 +313,9 @@ public class Camara extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.PNG,30,array);
         byte []imagenByte= array.toByteArray();
         String imagenString = Base64.encodeToString(imagenByte,Base64.DEFAULT);
+
+
+
         return imagenString;
     }
 
@@ -374,14 +378,9 @@ public class Camara extends Fragment {
             float escalaAncho=Float.parseFloat("0.18382353");
             float escalaAlto=Float.parseFloat("0.3267974");
 
-
             matrix.postScale(escalaAncho,escalaAlto);
 
-            Guardar guardarImagen = new Guardar();
-
-
             Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,ancho,alto,matrix,false);
-
 
 
             Log.i(" imagen","Cambio de tamaño" );
