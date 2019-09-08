@@ -257,12 +257,16 @@ public class Camara extends Fragment {
                         startActivity(intent,bundle);
 
 
+                    }else {
+
+                        Toast.makeText(getContext(), "No es posible iniciar sesion", Toast.LENGTH_SHORT).show();
+
                     }
 
 
                 } catch (JSONException e) {
 
-                    Toast.makeText(getContext(), "Ya chafio esto brow", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Eror Inesperado", Toast.LENGTH_SHORT).show();
                 }
 
 
