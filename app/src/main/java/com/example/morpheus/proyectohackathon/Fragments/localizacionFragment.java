@@ -72,9 +72,9 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
                         }
 
                     }
-                    catch ()
+                    catch (Exception e)
                     {
-
+                        e.printStackTrace();
                     }
                 }
             }
