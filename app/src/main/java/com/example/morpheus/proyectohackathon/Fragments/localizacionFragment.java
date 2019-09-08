@@ -54,6 +54,7 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
         listarUbicacionCajeros();
 
 
+
     }
 
     @Override
@@ -78,12 +79,12 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
                     {
                         for (int i = 0; i < localizacionList.size(); i++)
                         {
-
+                            Log.i("Lat",t.get(i).getLatitud() + "");
                             puntosGPSCajeros.add(new LatLng(t.get(i).getLatitud(), t.get(i).getLongitud())); //LLENAMOS LA LISTA QUE PERMITE DIBUJAR LOS PUNTOS EN EL MAPA
-                            dibujarPuntosCajeros();
                             Log.i("RespuestaUbicacion", puntosGPSCajeros.size() + "");
 
                         }
+                        dibujarPuntosCajeros();
 
                     }
                     catch (Exception e)
@@ -106,13 +107,14 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
     {
         if(localizacionList != null)
         {
-            for (int i = 1; i < localizacionList.size(); i++)
+            for (int i = 0; i < localizacionList.size(); i++)
             {
+
                 CajeroMarker = googleMap.addMarker(new MarkerOptions()
                         .position(puntosGPSCajeros.get(i))
                         .title(localizacionList.get(i).getName())
                         .snippet(localizacionList.get(i).getAddress())
-                        .draggable(true).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_gps_cajero)));
+                        .draggable(true).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_localizacion_gps)));
 
 
             }
