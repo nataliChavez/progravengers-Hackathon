@@ -113,7 +113,7 @@ public class ClienteDAO {
     }
 
 
-    public void RegistroImagne(Context context, JSONObject json, final DAO.OnResultadoConsulta<JSONArray> listener) {
+    public void RegistroImagenes(Context context, JSONObject json, final DAO.OnResultadoConsulta<JSONArray> listener) {
 
         String url = Constantes.HOST_PUERTO + "bbva/createaccount";
         Prueba.POST post = new Prueba.POST(context, url, json);
@@ -125,6 +125,10 @@ public class ClienteDAO {
 
                 try {
                     codigo = jsonObject.getInt("codigo");
+
+
+
+                    
 
                 } catch (JSONException e) {
                     e.printStackTrace();

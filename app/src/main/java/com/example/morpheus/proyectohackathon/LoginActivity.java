@@ -98,16 +98,11 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
                 startActivity(intent);
                 break;
 
-            case R.id.btnIniciarSesion:
-                intent = new Intent(LoginActivity.this, PantallaPrincipalActivity.class);
-                startActivity(intent);
-                break;
-
 
             case R.id.btnIniciarSesion:
 
                 FragmentManager fragmentMang = getSupportFragmentManager();
-                Fragment   fragmento = new Camara();
+                Fragment   fragmento =  Camara.getInstance("login");
                 fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
 
                 break;

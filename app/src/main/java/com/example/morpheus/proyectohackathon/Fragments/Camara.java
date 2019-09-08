@@ -19,45 +19,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import com.example.morpheus.proyectohackathon.BuildConfig;
 import com.example.morpheus.proyectohackathon.DAO.ClienteDAO;
 import com.example.morpheus.proyectohackathon.DAO.DAO;
-import com.example.morpheus.proyectohackathon.LoginActivity;
+import com.example.morpheus.proyectohackathon.PantallaPrincipalActivity;
 import com.example.morpheus.proyectohackathon.R;
-import com.example.morpheus.proyectohackathon.RegistroActivity;
-import com.example.morpheus.proyectohackathon.Resources.Constantes;
-import com.example.morpheus.proyectohackathon.Resources.FileUploadUrlConnection;
-import com.example.morpheus.proyectohackathon.Resources.Guardar;
-import com.example.morpheus.proyectohackathon.Resources.MultipartRequest;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 import static android.app.Activity.RESULT_OK;
 
@@ -87,11 +64,22 @@ public class Camara extends Fragment {
     RequestQueue request;
 
     File imagenesBVA;
-    String nombreImagen;
+    String nombreImagen, nombreclintes, apellido1, apellido2, tipoAccion = "login";
 
     boolean foto = true;
 
     ClienteDAO clienteDAO = new  ClienteDAO();
+
+
+    //INSTANCIA DE LA CLASE
+    public static Camara getInstance(String opcion)
+    {
+        Camara fragment = new Camara();
+        Bundle bundle = new Bundle();
+        bundle.putString("TITULO", opcion);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
 
     @Override
@@ -253,7 +241,7 @@ public class Camara extends Fragment {
 
                         Toast.makeText(getContext(), "Hola ", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        Intent intent = new Intent(getActivity(), PantallaPrincipalActivity.class);
                         startActivity(intent);
 
 
@@ -441,7 +429,18 @@ public class Camara extends Fragment {
                 nombre_lateral = nombreImagen;
                 foto = true;
 
-                CargarImagenServidor();
+                if(tipoAccion == "login"){
+
+                    CargarImagenServidor();
+
+                }else{
+
+
+                    registrarImagenes();
+
+                }
+
+
             }
 
 
@@ -459,7 +458,25 @@ public class Camara extends Fragment {
 
     public void registrarImagenes(){
 
+        JSONObject json = JSonImaganes(imagen_frontal,imagen_latera,nombre_Fontal,nombre_lateral,nombreclintes,apellido1,apellido2);
 
+    clienteDAO.RegistroImagenes(getContext(), json, new DAO.OnResultadoConsulta<JSONArray>() {
+        @Override
+        public void consultaSuccess(JSONArray jsonArray) {
+
+
+            Toast.makeText(getContext(), "Imagenes Registrada", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+         public void consultaFailed(String error, int codigo) {
+
+
+            Toast.makeText(getContext(), "Fallo al  registrar", Toast.LENGTH_SHORT).show();
+
+        }
+        });
 
 
 
@@ -472,27 +489,29 @@ public class Camara extends Fragment {
     public JSONObject JSonImaganes(String imagen1, String imagen2, String nombre1, String nombre2, String nombreCliente, String apellidoCliente1, String apellidoCliente2){
 
 
-
-        JSONObject jsonImagenes = new JSONObject();
-
+        JSONObject obj= null;
 
         try{
 
+            obj = new JSONObject();
+            obj.put("imagen1",imagen1);
+            obj.put("imagen2",imagen2);
+            obj.put("nombre1",nombre1);
+            obj.put("nombre2",nombre2);
+            obj.put("nombreCliente",nombreCliente);
+            obj.put("apellidoCliente1",apellidoCliente1);
+            obj.put("apellidoCliente2",apellidoCliente2);
 
-            jsonImagenes.put("imagen1",imagen1);
-            jsonImagenes.put("imagen2",imagen2);
-            jsonImagenes.put("nombre1",nombre1);
-            jsonImagenes.put("nombre2",nombre2);
-            jsonImagenes.put("nombreCliente",nombreCliente);
-            jsonImagenes.put("apellidoCliente1",apellidoCliente1);
-            jsonImagenes.put("apellidoCliente2",apellidoCliente2);
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        return jsonImagenes;
+
+        return obj;
 
 
     }
