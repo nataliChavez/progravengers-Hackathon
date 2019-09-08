@@ -2,6 +2,8 @@ package com.example.morpheus.proyectohackathon;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.morpheus.proyectohackathon.DAO.ClienteDAO;
 import com.example.morpheus.proyectohackathon.DAO.DAO;
+import com.example.morpheus.proyectohackathon.Fragments.Camara;
 import com.example.morpheus.proyectohackathon.Resources.CrearProgressDialog;
 
 import org.json.JSONArray;
@@ -147,6 +150,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                         edtCurp.setText("");
 
                         dialogoDespedida(info,cuenta).show();
+
+
+
+                        
+
 
 
 
