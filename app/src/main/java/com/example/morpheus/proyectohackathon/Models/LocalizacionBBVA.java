@@ -4,18 +4,46 @@ public class LocalizacionBBVA {
     String name;
     String address;
     String postcode;
-    String latitud;
-    String longitud;
+    double latitud;
+    double longitud;
+    String movimimientos;
+    HorariosCajeros horariosCajeros;
 
     public LocalizacionBBVA() {
     }
 
-    public LocalizacionBBVA(String name, String address, String postcode, String latitud, String longitud) {
+    public LocalizacionBBVA(String name, String address, String postcode, double latitud, double longitud) {
         this.name = name;
         this.address = address;
         this.postcode = postcode;
         this.latitud = latitud;
         this.longitud = longitud;
+    }
+
+    public LocalizacionBBVA(String name, String address, String postcode, String movimimientos, HorariosCajeros horariosCajeros, double latitud, double longitud) {
+        this.name = name;
+        this.address = address;
+        this.postcode = postcode;
+        this.movimimientos = movimimientos;
+        this.horariosCajeros = horariosCajeros;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
+    public String getMovimimientos() {
+        return movimimientos;
+    }
+
+    public void setMovimimientos(String movimimientos) {
+        this.movimimientos = movimimientos;
+    }
+
+    public HorariosCajeros getHorariosCajeros() {
+        return horariosCajeros;
+    }
+
+    public void setHorariosCajeros(HorariosCajeros horariosCajeros) {
+        this.horariosCajeros = horariosCajeros;
     }
 
     public String getName() {
@@ -42,19 +70,19 @@ public class LocalizacionBBVA {
         this.postcode = postcode;
     }
 
-    public String getLatitud() {
+    public double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(String latitud) {
+    public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
 
-    public String getLongitud() {
+    public double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(String longitud) {
+    public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
 }
