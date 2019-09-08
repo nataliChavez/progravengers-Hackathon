@@ -108,7 +108,6 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
                 fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
 
                 break;
-
         }
     }
 }
