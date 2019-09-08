@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
     private Button btnIniciarSesion;
     private ImageSwitcher imageSwitcher;
     private Button btnRegistrarse;
+    private  Intent intent = null;
 
     private int [] slider = {R.drawable.mexico_1, R.drawable.guanajuato,R.drawable.mexico_2, R.drawable.guanajuato_2};
     private int positon;
@@ -93,10 +94,14 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnRegistrarse:
-                Intent intent = new Intent(LoginActivity.this,RegistroActivity.class);
+                 intent = new Intent(LoginActivity.this,RegistroActivity.class);
                 startActivity(intent);
                 break;
 
+            case R.id.btnIniciarSesion:
+                intent = new Intent(LoginActivity.this, PantallaPrincipalActivity.class);
+                startActivity(intent);
+                break;
 
 
             case R.id.btnIniciarSesion:
@@ -108,7 +113,5 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
                 break;
 
         }
-
-
     }
 }
