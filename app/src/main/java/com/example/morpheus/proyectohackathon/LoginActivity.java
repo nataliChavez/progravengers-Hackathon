@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.example.morpheus.proyectohackathon.Fragments.Camara;
+import com.example.morpheus.proyectohackathon.Resources.CrearProgressDialog;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,6 +35,8 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
     private int positon;
     private static final int DURACION = 6000;
     private Timer timer = null;
+
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +103,8 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
                 break;
 
             case R.id.btnIniciarSesion:
-
                 FragmentManager fragmentMang = getSupportFragmentManager();
-                Fragment   fragmento =  Camara.getInstance("login");
+                Fragment   fragmento =  Camara.getInstance("login","","","");
                 fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
 
                 break;

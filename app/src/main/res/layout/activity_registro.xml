@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/contentRegistro"
     android:background="@color/colorAzulOscuro"
     tools:context=".RegistroActivity">
 
@@ -237,7 +238,6 @@
 
                 <EditText
                     android:id="@+id/edtColonia"
-                    android:maxLength="6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin"

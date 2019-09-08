@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +30,9 @@ import com.example.morpheus.proyectohackathon.DAO.ClienteDAO;
 import com.example.morpheus.proyectohackathon.DAO.DAO;
 import com.example.morpheus.proyectohackathon.PantallaPrincipalActivity;
 import com.example.morpheus.proyectohackathon.R;
+import com.example.morpheus.proyectohackathon.RegistroActivity;
+import com.example.morpheus.proyectohackathon.Resources.CrearProgressDialog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,8 +65,10 @@ public class Camara extends Fragment {
 
 
     Button btnFoto;
-    ProgressDialog progressDialog;
-    RequestQueue request;
+
+    //CREAR PROGRESSDIALOG
+    private CrearProgressDialog progressDialog;
+    private ProgressDialog dialogoProgreso;
 
     File imagenesBVA;
     String nombreImagen, nombreclintes, apellido1, apellido2, tipoAccion = "login";
@@ -70,17 +77,31 @@ public class Camara extends Fragment {
 
     ClienteDAO clienteDAO = new  ClienteDAO();
 
+    String nombre,paterno,materno;
 
     //INSTANCIA DE LA CLASE
-    public static Camara getInstance(String opcion)
+    public static Camara getInstance(String opcion,String nombre,String paterno,String materno)
     {
         Camara fragment = new Camara();
         Bundle bundle = new Bundle();
         bundle.putString("TITULO", opcion);
+        bundle.putString("NOMBRE",nombre);
+        bundle.putString("PATERNO",paterno);
+        bundle.putString("MATERNO",materno);
         fragment.setArguments(bundle);
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null){
+            tipoAccion = getArguments().getString("TITULO");
+            nombre = getArguments().getString("NOMBRE");
+            paterno = getArguments().getString("PATERNO");
+            materno = getArguments().getString("MATERNO");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,17 +112,10 @@ public class Camara extends Fragment {
         btnFoto = vista.findViewById(R.id.btnFoto);
 
         setHasOptionsMenu(true);
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("En Proceso");
-        progressDialog.setMessage("Un momento...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        /*Escuchar cuando el boton registro es precionado hace un llamdo al metodo
-         * subir imagen*/
 
 
-        /*Escuchar si el boon para tomar foto es precionado
-         * realiza llamado a metodo mostrarDialogoOpciones*/
-
+        //INICIALIZAMOS EL PROGRESS DIALOG
+        progressDialog = new CrearProgressDialog();
 
         Toast.makeText(getContext(), "Tome una foto de frente", Toast.LENGTH_SHORT).show();
         abrirCamara("_frontal");
@@ -145,8 +159,6 @@ public class Camara extends Fragment {
 
 
                     }catch (Exception e){
-                        Toast.makeText(getContext(), "Error inesperado", Toast.LENGTH_SHORT).show();
-                        Log.i("Inesperado", e.toString());
                         FragmentManager fragmentMang = getActivity().getSupportFragmentManager();
                         Fragment   fragmento = new Camara();
                         fragmentMang.beginTransaction().replace(R.id.contentPrincial, fragmento).commit();
@@ -222,27 +234,27 @@ public class Camara extends Fragment {
 
 
     public void CargarImagenServidor(){
-
-
+        dialogoProgreso = progressDialog.CargarProgressDialog(getContext());
         clienteDAO.iniciarSesion(getContext(), imagen_frontal, imagen_latera, nombre_Fontal, nombre_lateral, new DAO.OnResultadoConsulta<JSONObject>() {
             @Override
             public void consultaSuccess(JSONObject jsonObject) {
-
-
+                dialogoProgreso.dismiss();
                 int codigo ;
+                JSONObject jsonData;
+                String nombre;
                 try {
 
                     codigo = jsonObject.getInt("codigo");
 
-                    Log.i("codigo", codigo+"");
-
                     if(codigo == 0){
 
-
-                        Toast.makeText(getContext(), "Hola ", Toast.LENGTH_SHORT).show();
+                        jsonData = jsonObject.getJSONObject("data");
+                        nombre = jsonData.getString("nombre");
 
                         Intent intent = new Intent(getActivity(), PantallaPrincipalActivity.class);
-                        startActivity(intent);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("NOMBRE",nombre);
+                        startActivity(intent,bundle);
 
 
                     }
@@ -258,6 +270,7 @@ public class Camara extends Fragment {
 
             @Override
             public void consultaFailed(String error, int codigo) {
+                dialogoProgreso.dismiss();
 
             }
         });
@@ -413,9 +426,6 @@ public class Camara extends Fragment {
             Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,ancho,alto,matrix,false);
 
 
-            Log.i(" imagen","Cambio de tamaño" );
-
-
             if (foto){
 
                 imagen_frontal = ConvertirImagenString(bitmap1);
@@ -423,7 +433,6 @@ public class Camara extends Fragment {
                 foto = false;
                 abrirCamara("_lateral");
             }else {
-
 
                 imagen_latera = ConvertirImagenString(bitmap1);
                 nombre_lateral = nombreImagen;
@@ -434,8 +443,6 @@ public class Camara extends Fragment {
                     CargarImagenServidor();
 
                 }else{
-
-
                     registrarImagenes();
 
                 }
@@ -457,27 +464,38 @@ public class Camara extends Fragment {
 
 
     public void registrarImagenes(){
+         dialogoProgreso = progressDialog.CargarProgressDialog(getContext());
 
-        JSONObject json = JSonImaganes(imagen_frontal,imagen_latera,nombre_Fontal,nombre_lateral,nombreclintes,apellido1,apellido2);
+        clienteDAO.RegistroImagenes(getContext(), imagen_frontal, imagen_latera, nombre_Fontal, nombre_lateral, nombre, paterno, materno, new DAO.OnResultadoConsulta<JSONObject>() {
+            @Override
+            public void consultaSuccess(JSONObject jsonObject) {
+                if (jsonObject != null){
+                    int codigo;
 
-    clienteDAO.RegistroImagenes(getContext(), json, new DAO.OnResultadoConsulta<JSONArray>() {
-        @Override
-        public void consultaSuccess(JSONArray jsonArray) {
+                    try {
+                        codigo = jsonObject.getInt("codigo");
+                        if (codigo == 0){
 
+                            Toast.makeText(getContext(), "Registro completado con exito", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getContext(), "Ocurrio un problema al registgrar, Intente nuevamente", Toast.LENGTH_SHORT).show();
 
-            Toast.makeText(getContext(), "Imagenes Registrada", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(), "Ocurrio un problema al registgrar, Intente nuevamente", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Ocurrio un problema al registgrar, Intente nuevamente", Toast.LENGTH_SHORT).show();
+                }
 
-        }
+            }
 
-        @Override
-         public void consultaFailed(String error, int codigo) {
+            @Override
+            public void consultaFailed(String error, int codigo) {
 
-
-            Toast.makeText(getContext(), "Fallo al  registrar", Toast.LENGTH_SHORT).show();
-
-        }
+            }
         });
-
 
 
     }

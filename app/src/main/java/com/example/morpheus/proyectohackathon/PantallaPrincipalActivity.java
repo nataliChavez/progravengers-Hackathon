@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -19,6 +20,8 @@ public class PantallaPrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     private NavigationView navigationView;
     private Fragment fragment = null;
+    private TextView nombreUsuario;
+    private String nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +52,14 @@ public class PantallaPrincipalActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        nombre = getIntent().getStringExtra("NOMBRE");
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //View header = navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
+
+        nombreUsuario = header.findViewById(R.id.nombreUsuario);
+        nombreUsuario.setText(nombre);
+
     }
 
     @Override

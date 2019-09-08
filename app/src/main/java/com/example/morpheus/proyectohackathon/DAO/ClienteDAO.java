@@ -106,42 +106,46 @@ public class ClienteDAO {
 
             @Override
             public void onFailed(String s, int i) {
-
+                Log.i("respuesta",s);
+                listener.consultaFailed(s, i);
             }
         });
 
     }
 
 
-    public void RegistroImagenes(Context context, JSONObject json, final DAO.OnResultadoConsulta<JSONArray> listener) {
+    public void RegistroImagenes(Context context,String imagen1,String imagen2,String nombre1,String nombre2,String nombre,String paterno,String materno, final DAO.OnResultadoConsulta<JSONObject> listener) {
 
-        String url = Constantes.HOST_PUERTO + "bbva/createaccount";
-        Prueba.POST post = new Prueba.POST(context, url, json);
-        post.getResponse(new Peticion.OnPeticionListener<JSONObject>() {
+        String url = Constantes.HOST_PUERTO + "register/base64";
+        HashMap<String,String>params =new HashMap<>();
+        params.put("imagen1",imagen1);
+        params.put("imagen2",imagen2);
+        params.put("nombre1",nombre1);
+        params.put("nombre2",nombre2);
+        params.put("nombre",nombre);
+        params.put("paterno",paterno);
+        params.put("materno",materno);
+
+        Peticion.POST post = new Peticion.POST(context,url,params);
+        post.getResponse(new Peticion.OnPeticionListener<String>() {
             @Override
-            public void onSuccess(JSONObject jsonObject) {
-                int codigo;
-                JSONObject jsonData;
+            public void onSuccess(String s) {
+               JSONObject jsonObject;
 
                 try {
-                    codigo = jsonObject.getInt("codigo");
-
-
-
-                    
-
+                    jsonObject = new JSONObject(s);
+                    listener.consultaSuccess(jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    listener.consultaSuccess(null);
                 }
-
-
             }
 
             @Override
             public void onFailed(String s, int i) {
+                listener.consultaFailed(s, i);
 
             }
-
         });
     }
 

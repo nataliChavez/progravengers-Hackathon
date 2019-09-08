@@ -38,7 +38,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     //CREAR PROGRESSDIALOG
     private CrearProgressDialog progressDialog;
     private ProgressDialog dialogoProgreso;
-    private String genero;
+    private String genero,nombreUsuario,Apaterno,Amaterno;
     private String fechaInicio;
     private int dia, mes, anio;
     //PARA OBTENER LA FECHA ACTUAL
@@ -118,7 +118,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     }
 
     //PERMITE HACER UN REGISTRO EN LA BD
-    public void registrarCuenta(String nombre,String paterno,String materno,String genero,String fecha,String curp,String calle,String numero,String telefono,String colonia,String correo){
+    public void registrarCuenta(final String nombre, String paterno, String materno, String genero, String fecha, String curp, String calle, String numero, String telefono, String colonia, String correo){
         JSONObject jsonObject = generarJSON(nombre,paterno,materno,genero,fecha,curp,calle,numero,telefono,colonia,correo);
         clienteDAO.registrarCuenta(RegistroActivity.this, jsonObject, new DAO.OnResultadoConsulta<JSONObject>() {
             @Override
@@ -140,6 +140,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                         jsonnumberFormats = jsonAccount.getJSONArray("numberFormats");
                         cuenta = jsonnumberFormats.getJSONObject(0).getString("number");
 
+                        nombreUsuario = edtNombre.getText().toString();
+                        Apaterno = edtapellidoPaterno.getText().toString();
+                        Amaterno = edtApellidoMaterno.getText().toString();
+
+
                         edtNombre.setText("");
                         edtapellidoPaterno.setText("");
                         edtApellidoMaterno.setText("");
@@ -148,21 +153,17 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                         edtColonia.setText("");
                         edtNombre.setText("");
                         edtCurp.setText("");
+                        edtTelefono.setText("");
+                        edtNumero.setText("");
 
                         dialogoDespedida(info,cuenta).show();
 
 
-
-                        
-
-
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(RegistroActivity.this, "Esta en el catch", Toast.LENGTH_SHORT).show();
                     }
                 }else{
+
                 }
 
             }
@@ -196,6 +197,9 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
                 alertdialog.dismiss();
+                FragmentManager fragmentMang = getSupportFragmentManager();
+                Fragment   fragmento =  Camara.getInstance("registro",nombreUsuario,Apaterno,Amaterno);
+                fragmentMang.beginTransaction().replace(R.id.contentRegistro, fragmento).commit();
             }
 
         });
