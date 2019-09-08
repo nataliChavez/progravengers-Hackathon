@@ -61,6 +61,7 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
 
                         if(jsonArray.length() > 0)
                         {
+                            Log.i("RespuestaUbicacion", jsonArray.length() + "");
 
                             List<LocalizacionBBVA> list = new ArrayList<>();
                             Log.i("RespuestaUbicacion", "estoy");
@@ -73,8 +74,10 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
                                 JSONObject jsonCoordenadas = jsonPeq.getJSONObject("location");
                                 double latitud = Double.parseDouble(jsonCoordenadas.getString("lat"));
                                 double longitud = Double.parseDouble(jsonCoordenadas.getString("lon"));
-                                LocalizacionBBVA localizacion = new LocalizacionBBVA(jsonPeq.getString("name"),jsonPeq.getString("adress"),
+                                LocalizacionBBVA localizacion = new LocalizacionBBVA(jsonPeq.getString("name"),jsonPeq.getString("address"),
                                         jsonPeq.getString("postcode"),latitud,longitud);
+
+                                Log.i("respuesta",jsonPeq.getString("name"));
 
                                 list.add(localizacion);
 
@@ -94,6 +97,7 @@ public void LocalizacionCajeros(Context context, final DAO.OnResultadoListaConsu
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
+                    Log.i("respuestaDAO",e + "");
                     listener.consultaSuccess(null);
                 }
             }

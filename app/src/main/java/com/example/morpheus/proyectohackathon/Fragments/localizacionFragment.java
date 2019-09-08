@@ -69,13 +69,14 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
         localizacionDAO.LocalizacionCajeros(getContext(), new DAO.OnResultadoListaConsulta<LocalizacionBBVA>() {
             @Override
             public void consultaSuccess(List<LocalizacionBBVA> t) {
+                Log.i("RespuestaLista", "" +  t.size());
                 if(t != null)
                 {
-
+                    Log.i("Respuesta", "" +  t.size());
                     localizacionList = t;
                     try
                     {
-                        for (int i = 0; i < t.size(); i++)
+                        for (int i = 0; i < localizacionList.size(); i++)
                         {
 
                             puntosGPSCajeros.add(new LatLng(t.get(i).getLatitud(), t.get(i).getLongitud())); //LLENAMOS LA LISTA QUE PERMITE DIBUJAR LOS PUNTOS EN EL MAPA
@@ -89,6 +90,7 @@ public class localizacionFragment extends Fragment implements OnMapReadyCallback
                     {
                         Log.i("RespuestaUbicacion", "Hola estoy en el catch");
                         e.printStackTrace();
+                        Log.i("respuesta",e + "");
                     }
                 }
             }
