@@ -143,9 +143,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-                        FragmentManager fragmentMang = getSupportFragmentManager();
-                        Fragment fragmento =  Camara.getInstance("registro");
-                        fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
+                        
 
 
 
