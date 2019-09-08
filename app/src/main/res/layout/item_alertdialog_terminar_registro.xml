@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorAccent"/>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_check_azul"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textMensajeIngresarCodigo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="¡Gracias por registrarte en BBVA!"
+            android:textSize="@dimen/texto_mediano"/>
+
+        <TextView
+            android:layout_below="@id/textMensajeIngresarCodigo"
+            android:id="@+id/txtInfo"
+            android:textAlignment="center"
+            android:textSize="@dimen/texto_mediano"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_below="@id/txtInfo"
+            android:id="@+id/txtCuenta"
+            android:textAlignment="center"
+            android:textSize="@dimen/texto_mediano"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <LinearLayout
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtCuenta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btnAceptar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparente"
+                android:text="Aceptar"
+                android:layout_alignParentEnd="true"
+                android:textColor="?attr/colorAccent"
+                android:layout_margin="@dimen/margin"
+                android:layout_below="@+id/edtIngresarCodigo"/>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

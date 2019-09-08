@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -136,7 +137,16 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                         jsonnumberFormats = jsonAccount.getJSONArray("numberFormats");
                         cuenta = jsonnumberFormats.getJSONObject(0).getString("number");
 
-                        Toast.makeText(RegistroActivity.this, info, Toast.LENGTH_SHORT).show();
+                        edtNombre.setText("");
+                        edtapellidoPaterno.setText("");
+                        edtApellidoMaterno.setText("");
+                        edtEmail.setText("");
+                        edtCalle.setText("");
+                        edtColonia.setText("");
+                        edtNombre.setText("");
+                        edtCurp.setText("");
+
+                        dialogoDespedida(info,cuenta).show();
 
 
 
@@ -156,6 +166,33 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+    }
+
+    private AlertDialog dialogoDespedida(String info,String cuenta)
+    {
+        View vistaAlert = LayoutInflater.from(RegistroActivity.this).inflate(R.layout.item_alertdialog_terminar_registro, null);
+        final Button btnAceptar = vistaAlert.findViewById(R.id.btnAceptar);
+        TextView edtInfo = vistaAlert.findViewById(R.id.txtInfo);
+        TextView edtCuenta = vistaAlert.findViewById(R.id.txtCuenta);
+        edtInfo.setText(info);
+        edtCuenta.setText("El numero de su cuenta bancaria es: "+cuenta);
+
+        final AlertDialog.Builder  builder = new AlertDialog.Builder(RegistroActivity.this);
+        builder.setCancelable(false);
+        builder.setView(vistaAlert);
+
+        final AlertDialog alertdialog;
+        alertdialog = builder.create();
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertdialog.dismiss();
+            }
+
+        });
+
+        return alertdialog;
     }
 
     //PERMITE GENERAR EL JSON CON LOS DATOS DEL CLIENTE
