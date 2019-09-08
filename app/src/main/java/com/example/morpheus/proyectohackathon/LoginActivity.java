@@ -104,13 +104,13 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
                 break;
 
 
-            case R.id.btnIniciarSesion:
+            /*case R.id.btnIniciarSesion:
 
                 FragmentManager fragmentMang = getSupportFragmentManager();
                 Fragment   fragmento = new Camara();
                 fragmentMang.beginTransaction().replace(R.id.contentLogin, fragmento).commit();
 
-                break;
+                break;*/
 
         }
     }
