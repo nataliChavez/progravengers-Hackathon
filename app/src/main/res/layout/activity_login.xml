@@ -58,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hola"
+            android:layout_marginTop="12dp"
             android:textColor="@color/colorBlanco"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"

@@ -1,6 +1,7 @@
 package com.example.morpheus.proyectohackathon;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorAzulOscuro));
 
         imageSwitcher = findViewById(R.id.imageSwitcher);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
@@ -78,6 +81,7 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+
 
     }
 }
